@@ -1,0 +1,84 @@
+[Tue Jan 10 22:03:09 2012] [notice] Digest: generating secret for digest authentication ...
+[Tue Jan 10 22:03:09 2012] [notice] Digest: done
+[Tue Jan 10 22:03:13 2012] [notice] Apache/2.2.21 (Win32) mod_ssl/2.2.21 OpenSSL/1.0.0e PHP/5.3.8 configured -- resuming normal operations
+[Tue Jan 10 22:03:13 2012] [notice] Server built: Sep 10 2011 11:34:11
+[Tue Jan 10 22:03:13 2012] [notice] Parent: Created child process 4936
+[Tue Jan 10 22:03:16 2012] [notice] Digest: generating secret for digest authentication ...
+[Tue Jan 10 22:03:16 2012] [notice] Digest: done
+[Tue Jan 10 22:03:17 2012] [notice] Child 4936: Child process is running
+[Tue Jan 10 22:03:17 2012] [notice] Child 4936: Acquired the start mutex.
+[Tue Jan 10 22:03:17 2012] [notice] Child 4936: Starting 150 worker threads.
+[Tue Jan 10 22:03:17 2012] [notice] Child 4936: Starting thread to listen on port 443.
+[Tue Jan 10 22:03:17 2012] [notice] Child 4936: Starting thread to listen on port 80.
+[Tue Jan 10 22:10:21 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Tue Jan 10 22:11:45 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/xpress/favicon.ico
+[Tue Jan 10 22:12:02 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/gnavi/favicon.ico
+[Tue Jan 10 22:12:22 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/d3forum/favicon.ico
+[Thu Mar 22 19:28:55 2012] [warn] pid file z:/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Mar 22 19:28:55 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 19:28:55 2012] [notice] Digest: done
+[Thu Mar 22 19:28:57 2012] [notice] Apache/2.2.21 (Win32) mod_ssl/2.2.21 OpenSSL/1.0.0e PHP/5.3.8 configured -- resuming normal operations
+[Thu Mar 22 19:28:57 2012] [notice] Server built: Sep 10 2011 11:34:11
+[Thu Mar 22 19:28:57 2012] [notice] Parent: Created child process 5240
+[Thu Mar 22 19:28:59 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 19:28:59 2012] [notice] Digest: done
+[Thu Mar 22 19:28:59 2012] [notice] Child 5240: Child process is running
+[Thu Mar 22 19:28:59 2012] [notice] Child 5240: Acquired the start mutex.
+[Thu Mar 22 19:28:59 2012] [notice] Child 5240: Starting 150 worker threads.
+[Thu Mar 22 19:29:00 2012] [notice] Child 5240: Starting thread to listen on port 443.
+[Thu Mar 22 19:29:00 2012] [notice] Child 5240: Starting thread to listen on port 80.
+[Thu Mar 22 19:30:07 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Thu Mar 22 20:38:07 2012] [warn] pid file z:/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Mar 22 20:38:07 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 20:38:07 2012] [notice] Digest: done
+[Thu Mar 22 20:38:08 2012] [notice] Apache/2.2.21 (Win32) mod_ssl/2.2.21 OpenSSL/1.0.0e PHP/5.3.8 configured -- resuming normal operations
+[Thu Mar 22 20:38:08 2012] [notice] Server built: Sep 10 2011 11:34:11
+[Thu Mar 22 20:38:08 2012] [notice] Parent: Created child process 1764
+[Thu Mar 22 20:38:10 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 20:38:10 2012] [notice] Digest: done
+[Thu Mar 22 20:38:11 2012] [notice] Child 1764: Child process is running
+[Thu Mar 22 20:38:11 2012] [notice] Child 1764: Acquired the start mutex.
+[Thu Mar 22 20:38:11 2012] [notice] Child 1764: Starting 150 worker threads.
+[Thu Mar 22 20:38:11 2012] [notice] Child 1764: Starting thread to listen on port 443.
+[Thu Mar 22 20:38:11 2012] [notice] Child 1764: Starting thread to listen on port 80.
+[Thu Mar 22 20:39:24 2012] [warn] pid file z:/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Mar 22 20:39:24 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 20:39:24 2012] [notice] Digest: done
+[Thu Mar 22 20:39:25 2012] [notice] Apache/2.2.21 (Win32) mod_ssl/2.2.21 OpenSSL/1.0.0e PHP/5.3.8 configured -- resuming normal operations
+[Thu Mar 22 20:39:25 2012] [notice] Server built: Sep 10 2011 11:34:11
+[Thu Mar 22 20:39:25 2012] [notice] Parent: Created child process 2776
+[Thu Mar 22 20:39:27 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 20:39:27 2012] [notice] Digest: done
+[Thu Mar 22 20:39:28 2012] [notice] Child 2776: Child process is running
+[Thu Mar 22 20:39:28 2012] [notice] Child 2776: Acquired the start mutex.
+[Thu Mar 22 20:39:28 2012] [notice] Child 2776: Starting 150 worker threads.
+[Thu Mar 22 20:39:28 2012] [notice] Child 2776: Starting thread to listen on port 443.
+[Thu Mar 22 20:39:28 2012] [notice] Child 2776: Starting thread to listen on port 80.
+[Thu Mar 22 20:39:53 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Thu Mar 22 20:41:07 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Thu Mar 22 20:41:13 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/bulletin/favicon.ico
+[Thu Mar 22 20:41:14 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/bulletin/favicon.ico
+[Thu Mar 22 20:41:33 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/xpress/favicon.ico
+[Thu Mar 22 20:41:34 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/xpress/favicon.ico
+[Thu Mar 22 20:41:58 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/pico/favicon.ico
+[Thu Mar 22 20:41:58 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/pico/favicon.ico
+[Thu Mar 22 20:42:08 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/gnavi/favicon.ico
+[Thu Mar 22 20:42:09 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/gnavi/favicon.ico
+[Thu Mar 22 20:42:16 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/d3forum/favicon.ico
+[Thu Mar 22 20:42:16 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/modules/d3forum/favicon.ico
+[Thu Mar 22 20:44:51 2012] [warn] pid file z:/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Thu Mar 22 20:44:51 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 20:44:51 2012] [notice] Digest: done
+[Thu Mar 22 20:44:52 2012] [notice] Apache/2.2.21 (Win32) mod_ssl/2.2.21 OpenSSL/1.0.0e PHP/5.3.8 configured -- resuming normal operations
+[Thu Mar 22 20:44:52 2012] [notice] Server built: Sep 10 2011 11:34:11
+[Thu Mar 22 20:44:52 2012] [notice] Parent: Created child process 5792
+[Thu Mar 22 20:44:54 2012] [notice] Digest: generating secret for digest authentication ...
+[Thu Mar 22 20:44:54 2012] [notice] Digest: done
+[Thu Mar 22 20:44:55 2012] [notice] Child 5792: Child process is running
+[Thu Mar 22 20:44:55 2012] [notice] Child 5792: Acquired the start mutex.
+[Thu Mar 22 20:44:55 2012] [notice] Child 5792: Starting 150 worker threads.
+[Thu Mar 22 20:44:55 2012] [notice] Child 5792: Starting thread to listen on port 443.
+[Thu Mar 22 20:44:55 2012] [notice] Child 5792: Starting thread to listen on port 80.
+[Thu Mar 22 20:45:34 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Thu Mar 22 20:45:35 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Thu Mar 22 20:48:45 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
