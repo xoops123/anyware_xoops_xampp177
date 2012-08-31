@@ -82,3 +82,34 @@
 [Thu Mar 22 20:45:34 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
 [Thu Mar 22 20:45:35 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
 [Thu Mar 22 20:48:45 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
+[Fri Aug 31 23:17:18 2012] [warn] pid file z:/xampp/apache/logs/httpd.pid overwritten -- Unclean shutdown of previous Apache run?
+[Fri Aug 31 23:17:18 2012] [notice] Digest: generating secret for digest authentication ...
+[Fri Aug 31 23:17:18 2012] [notice] Digest: done
+[Fri Aug 31 23:17:19 2012] [notice] Apache/2.2.21 (Win32) mod_ssl/2.2.21 OpenSSL/1.0.0e PHP/5.3.8 configured -- resuming normal operations
+[Fri Aug 31 23:17:19 2012] [notice] Server built: Sep 10 2011 11:34:11
+[Fri Aug 31 23:17:19 2012] [notice] Parent: Created child process 2616
+[Fri Aug 31 23:17:23 2012] [notice] Digest: generating secret for digest authentication ...
+[Fri Aug 31 23:17:23 2012] [notice] Digest: done
+[Fri Aug 31 23:17:24 2012] [notice] Child 2616: Child process is running
+[Fri Aug 31 23:17:24 2012] [notice] Child 2616: Acquired the start mutex.
+[Fri Aug 31 23:17:24 2012] [notice] Child 2616: Starting 150 worker threads.
+[Fri Aug 31 23:17:24 2012] [notice] Child 2616: Starting thread to listen on port 443.
+[Fri Aug 31 23:17:24 2012] [notice] Child 2616: Starting thread to listen on port 80.
+[Fri Aug 31 23:27:35 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id=21
+[Fri Aug 31 23:27:35 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id=21
+[Fri Aug 31 23:27:35 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id=21
+[Fri Aug 31 23:27:35 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/jquery.cookie.js, referer: http://localhost/pack2011/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id=21
+[Fri Aug 31 23:27:36 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id=21
+[Fri Aug 31 23:27:36 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/legacy/admin/index.php?action=PreferenceEdit&confmod_id=21
+[Fri Aug 31 23:27:50 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:10 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:11 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:11 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:11 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/jquery.cookie.js, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:11 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:11 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleView
+[Fri Aug 31 23:28:27 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/jquery.cookie.js, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleStore
+[Fri Aug 31 23:28:27 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleStore
+[Fri Aug 31 23:28:27 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleStore
+[Fri Aug 31 23:28:27 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/pack2011/common/js/notify, referer: http://localhost/pack2011/modules/xupdate/admin/index.php?action=ModuleStore
+[Fri Aug 31 23:40:57 2012] [error] [client 127.0.0.1] File does not exist: Z:/xampp/htdocs/uploads, referer: http://localhost/pack2011/
