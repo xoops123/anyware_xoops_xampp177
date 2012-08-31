@@ -97,7 +97,7 @@ class XoopsTpl extends Smarty
 	        $this->debug_tpl = 'file:' . XOOPS_ROOT_PATH.'/modules/legacy/templates/xoops_debug.tpl';
 	    }
 
-        // Delegate 'XoopsTpl.New' 
+        // Delegate 'XoopsTpl.New'
         //  Delegate may define additional initialization code for XoopTpl Instance;
         //  varArgs : 
         //      'xoopsTpl'     [I/O] : $this
