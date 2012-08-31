@@ -3,8 +3,8 @@
  *
  * @package XCube
  * @version $Id: XCube_Property.class.php,v 1.7 2008/10/12 04:30:27 minahito Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/>
- * @license http://xoopscube.sourceforge.net/license/bsd_licenses.txt Modified BSD license
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/bsd_licenses.txt Modified BSD license
  *
  */
 
@@ -300,6 +300,9 @@ class XCube_GenericArrayProperty extends XCube_PropertyInterface
 			foreach ($arg1 as $t_key => $t_value) {
 				$this->_set($t_key, $t_value);
 			}
+		}
+		elseif($arg1===null && $arg2===null){	//ex) all checkbox options are off
+			$this->reset();
 		}
 		elseif ($arg1 !== null && $arg2 !== null) {
 			$this->_set($arg1, $arg2);
