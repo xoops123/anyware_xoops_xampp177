@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: BlockListAction.class.php,v 1.3 2008/09/25 15:11:47 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -68,9 +68,7 @@ class Legacy_BlockListAction extends Legacy_AbstractListAction
 		$render->setAttribute("objects", $this->mObjects);
 		$render->setAttribute("pageNavi", $this->mFilter->mNavi);
 
-		$moduleHandler =& xoops_gethandler('module');
-		$modules =& $moduleHandler->getObjects(new Criteria('isactive', 1));
-		$render->setAttribute('modules', $modules);
+		$render->setAttribute('modules', $controller->mActiveModules);
 		$render->setAttribute('filterForm', $this->mFilter);
 		$render->setAttribute('pageArr', $this->mpageArr);		
 		//
