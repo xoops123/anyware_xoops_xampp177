@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteRule ^thumbid(.*)$ thumb.php?path=$1 [L,QSA]
+RewriteRule ^imageid(.*)$ image.php?path=$1 [L,QSA]
+RewriteRule ^thumb1id(.*)$ thumb.php?config=1&path=$1 [L,QSA]
+RewriteRule ^image1id(.*)$ image.php?config=1&path=$1 [L,QSA]
+RewriteRule ^thumb2id(.*)$ thumb.php?config=2&path=$1 [L,QSA]
+RewriteRule ^image2id(.*)$ image.php?config=2&path=$1 [L,QSA]
+RewriteRule ^thumb3id(.*)$ thumb.php?config=3&path=$1 [L,QSA]
+RewriteRule ^image3id(.*)$ image.php?config=3&path=$1 [L,QSA]
+
