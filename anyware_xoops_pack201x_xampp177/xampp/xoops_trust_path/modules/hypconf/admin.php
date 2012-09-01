@@ -5,6 +5,8 @@ if (! defined('HYP_COMMON_PRELOAD_CONF')) die('HypCommonPreLoad not found or tha
 
 if (! defined('_GLOBAL_LEFT')) define('_GLOBAL_LEFT', 'left');
 
+define('HYP_COMMON_HYPCONF_ADMIN_MODE', true);
+
 require_once dirname(__FILE__).'/class/gtickets.php' ;
 
 $mytrustdirname = basename( dirname( __FILE__ ) ) ;
@@ -66,6 +68,7 @@ if( ! empty( $_GET['lib'] ) ) {
 		if ( ! $xoopsGTicket->check( true , $mydirname ) ) {
 			redirect_header(XOOPS_URL.'/',3,$xoopsGTicket->getErrors());
 		}
+		HypCommonFunc::stripslashes_gpc($_POST);
 		if (isset($_POST['page'])) $_GET['page'] = $_POST['page'];
 	}
 

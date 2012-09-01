@@ -14,6 +14,7 @@ define($constpref.'_DESC', 'HypCommonFunc 関連の設定');
 
 define($constpref.'_MSG_SAVED' , '設定を保存しました。');
 define($constpref.'_COUSTOM_BLOCK' , 'カスタムブロック');
+define($constpref.'_NOT_SPECIFY' , '指定しない');
 
 // admin menus
 define($constpref.'_ADMENU_CONTENTSADMIN' , '設定の確認');
@@ -22,9 +23,11 @@ define($constpref.'_ADMENU_K_TAI_CONF' , 'モバイル対応の設定');
 define($constpref.'_ADMENU_MYBLOCKSADMIN' , 'アクセス権限設定');
 define($constpref.'_ADMENU_XPWIKI_RENDER', 'xpWikiレンダラー設定');
 define($constpref.'_ADMENU_SPAM_BLOCK', 'スパム防止設定');
+define($constpref.'_ADMENU_MISC', 'その他の設定');
 
 // notice error
 define($constpref.'_MAIN_SWITCH_NOT_ENABLE', 'メインスイッチで「<b>$1</b>」が無効になっています。ここでの設定を機能させるためには、メインスイッチで「<b>$1</b>」を有効にしてください。');
+define($constpref.'_THERE_ARE_NO_CONFIG' , '現在設定されている項目はありません。すべて規定値が適用されます。');
 
 // main_switch
 define($constpref.'_USE_SET_QUERY_WORDS', '検索ワードを定数にセット');
@@ -53,8 +56,16 @@ define($constpref.'_INPUT_FILTER_STRENGTH_2', '制御文字の内 \t,\r,\n の�
 // k_tai_render
 define($constpref.'_UA_REGEX', 'User agent');
 define($constpref.'_UA_REGEX_DESC', 'モバイル対応機能で処理する User agent を PCRE(Perl互換)正規表現で記述。');
+define($constpref.'_THEMESET', 'XOOPSテーマ');
+define($constpref.'_THEMESET_DESC', 'モバイル対応時に使用するテーマ名(指定しない場合はテーマの切り替えをしません)');
+define($constpref.'_TEMPLATESET', 'DBテンプレートセット');
+define($constpref.'_TEMPLATESET_DESC', 'モバイル対応時に使用するDBテンプレートセット名(指定しない場合はデフォルトテンプレートセットが使用されます)');
 define($constpref.'_JQM_PROFILES', 'jQuery Mobile');
 define($constpref.'_JQM_PROFILES_DESC', 'jQuery Mobile を適用するプロファイル名をカンマ区切りで記述。プロファイル名は携帯対応レンダラーで定義されていて、docomo, au, softbank, willcom, android, iphone, ipod, ipad, windows mobile などが使用できます。');
+define($constpref.'_THEMESETS_JQM', 'XOOPSテーマ(jqm)');
+define($constpref.'_THEMESETS_JQM_DESC', 'jQuery Mobile 適用時のテーマ名(指定しない場合は、モバイル対応時のテーマ名が使用されます)');
+define($constpref.'_TEMPLATESETS_JQM', 'DBテンプレートセット(jqm)');
+define($constpref.'_TEMPLATESETS_JQM_DESC', 'jQuery Mobile 適用時のDBテンプレートセット名(指定しない場合は、モバイル対応時のテーマ名が使用されます)');
 define($constpref.'_JQM_THEME', 'jqmテーマ');
 define($constpref.'_JQM_THEME_DESC', 'ページ全体の jQuery Mobile のテーマ。標準では a, b, c, d, e が有効です。');
 define($constpref.'_JQM_THEME_CONTENT', 'メイン部');
@@ -121,5 +132,11 @@ define($constpref.'_POST_SPAM_BADIP_FOREVER', '<b>Protector連携</b>: 無期限
 define($constpref.'_POST_SPAM_BADIP_FOREVER_DESC', '');
 define($constpref.'_POST_SPAM_BADIP_TTL0', '<b>Protector連携</b>: 無期限アクセス拒否継続時間[秒] (0:本当に無期限)');
 define($constpref.'_POST_SPAM_BADIP_TTL0_DESC', '');
+
+// misc
+define($constpref.'_MISC_HEAD_LAST_TAG', '&lt;head&gt;内の最後に挿入するタグ');
+define($constpref.'_MISC_HEAD_LAST_TAG_DESC', 'ここに記述した内容が &lt;/head&gt; の直前に挿入されます。&lt;meta&gt;, &lt;script&gt;, &lt;link&gt; タグなどが記述できます。<br />&lt;{$xoops_url}&gt; または [XOOPS_URL] は "'.XOOPS_URL.'" に置換されます。');
+define($constpref.'_XOOPSTPL_PLUGINS_DIR', 'Smartyプラグインディレクトリ(優先順)');
+define($constpref.'_XOOPSTPL_PLUGINS_DIR_DESC', 'Smartyプラグインが保存されているディレクトリを指定します。上から優先順に行単位で記述してください。(同名のファイルが存在した場合上のディレクトリのファイルが使用されます)<br />何も記入せずに保存するとXOOPSの初期値に戻ります。<br />独自プラグインを管理したい場合は、一番上に '.XOOPS_TRUST_PATH.'/lib/my_smartyplugins などとして、そのディレクトリに独自プラグインを置くと最優先で使用されます。<br />※ 初期状態で表示されているディレクトリについて専門知識がない場合は、優先順位も含めて変更されないことをお勧めします。');
 
 }

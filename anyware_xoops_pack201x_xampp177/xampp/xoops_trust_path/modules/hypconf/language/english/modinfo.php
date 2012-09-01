@@ -14,6 +14,7 @@ define($constpref.'_DESC', 'Configure of HypCommonFunc.');
 
 define($constpref.'_MSG_SAVED' , 'Config was saved correctly.');
 define($constpref.'_COUSTOM_BLOCK' , 'Custom block');
+define($constpref.'_NOT_SPECIFY' , 'Not specify');
 
 // admin menus
 define($constpref.'_ADMENU_CONTENTSADMIN' , 'Configuration Verify');
@@ -22,9 +23,11 @@ define($constpref.'_ADMENU_K_TAI_CONF' , 'Setup for mobile');
 define($constpref.'_ADMENU_MYBLOCKSADMIN' , 'Permissions Setting');
 define($constpref.'_ADMENU_XPWIKI_RENDER', 'xpWiki renderer');
 define($constpref.'_ADMENU_SPAM_BLOCK', 'SPAM blocker');
+define($constpref.'_ADMENU_MISC', 'MISC.');
 
 // notice error
 define($constpref.'_MAIN_SWITCH_NOT_ENABLE', '"<b>$1</b>" is invalid with the main switch. In order to operate a setup here, please validate "<b>$1</b>" with a main switch.');
+define($constpref.'_THERE_ARE_NO_CONFIG' , 'No item has been set up. All the values are applied with default.');
 
 // main_switch
 define($constpref.'_USE_SET_QUERY_WORDS', 'Set to a constant search words.');
@@ -53,8 +56,16 @@ define($constpref.'_INPUT_FILTER_STRENGTH_2', '\t, \r and \n are allowed in cont
 // k_tai_render
 define($constpref.'_UA_REGEX', 'User agent');
 define($constpref.'_UA_REGEX_DESC', 'User agent to handle the mobile component. PCRE (compatible Perl) Regular Expressions.');
+define($constpref.'_THEMESET', 'XOOPS theme');
+define($constpref.'_THEMESET_DESC', 'Theme name to use when mobile support(If you do not specify the switching of the theme does not)');
+define($constpref.'_TEMPLATESET', 'DB template set');
+define($constpref.'_TEMPLATESET_DESC', 'DB template set name to use when mobile support (if not specified, the default set of templates will be used)');
 define($constpref.'_JQM_PROFILES', 'jQuery Mobile');
 define($constpref.'_JQM_PROFILES_DESC', 'Profile name to apply jQuery Mobile. Them separated by comma. If the profile name defined in the renderer to mobile phones, "docomo, au, softbank, willcom, android, iphone, ipod, ipad, and windows mobile" you can use.');
+define($constpref.'_THEMESETS_JQM', 'XOOPS theme (jqm)');
+define($constpref.'_THEMESETS_JQM_DESC', 'Theme name when applying jQuery Mobile (if not specified, the name at the time of mobile-enabled theme will be used)');
+define($constpref.'_TEMPLATESETS_JQM', 'DB template set (jqm)');
+define($constpref.'_TEMPLATESETS_JQM_DESC', 'DB template name when applying a set of jQuery Mobile (if not specified, the name at the time of mobile-enabled theme will be used)');
 define($constpref.'_JQM_THEME', 'jqm Theme');
 define($constpref.'_JQM_THEME_DESC', 'JQuery Mobile theme of the entire page. In normal condition "a, b, c, d, e" is valid.');
 define($constpref.'_JQM_THEME_CONTENT', 'Main section');
@@ -121,5 +132,11 @@ define($constpref.'_POST_SPAM_BADIP_FOREVER', '<b>Protector cooperation</b>: Acc
 define($constpref.'_POST_SPAM_BADIP_FOREVER_DESC', '');
 define($constpref.'_POST_SPAM_BADIP_TTL0', '<b>Protector cooperation</b>: Indefinite duration access denied [s] (0: indeed indefinitely)');
 define($constpref.'_POST_SPAM_BADIP_TTL0_DESC', '');
+
+// misc
+define($constpref.'_MISC_HEAD_LAST_TAG', 'TAG inserted in last of &lt;head&gt;');
+define($constpref.'_MISC_HEAD_LAST_TAG_DESC', 'The contents described here are inserted just before &lt;/head&gt;. &lt;meta&gt;, &lt;script&gt;, &lt;link&gt;, etc. are can describe.<br />&lt;{$xoops_url}&gt; or [XOOPS_URL] is replaced to  "'.XOOPS_URL.'".');
+define($constpref.'_XOOPSTPL_PLUGINS_DIR', 'Directorys of smarty plugins(Priority order)');
+define($constpref.'_XOOPSTPL_PLUGINS_DIR_DESC', 'Specify the directory where Smarty plug-in has been saved. Please write line by line in order of preference from top to bottom. (Files in a directory on the file of the same name if there was a will be used)<br />Returns to the initial value of XOOPS When you save us without anything.<br />If you want to manage your own plug-ins are used in top priority and write, such as "'.XOOPS_TRUST_PATH.'/lib/my_smartyplugins" at the top, and put your own plug-ins in that directory.<br />* If you do not have expertise, it is recommended that you do not change, including the priorities for the directory that is displayed in the initial state.');
 
 }

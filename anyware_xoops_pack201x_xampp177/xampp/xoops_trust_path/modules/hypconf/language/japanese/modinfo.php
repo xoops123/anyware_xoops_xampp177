@@ -14,6 +14,7 @@ define($constpref.'_DESC', 'HypCommonFunc ┤╪╧вд╬└▀─ъ');
 
 define($constpref.'_MSG_SAVED' , '└▀─ъдЄ╩▌┬╕д╖д▐д╖д┐бг');
 define($constpref.'_COUSTOM_BLOCK' , 'еле╣е┐ере╓еэе├еп');
+define($constpref.'_NOT_SPECIFY' , '╗╪─ъд╖д╩дд');
 
 // admin menus
 define($constpref.'_ADMENU_CONTENTSADMIN' , '└▀─ъд╬│╬╟з');
@@ -22,9 +23,11 @@ define($constpref.'_ADMENU_K_TAI_CONF' , 'ете╨едеы┬╨▒■д╬└▀─ъ');
 define($constpref.'_ADMENU_MYBLOCKSADMIN' , 'евепе╗е╣╕в╕┬└▀─ъ');
 define($constpref.'_ADMENU_XPWIKI_RENDER', 'xpWikiеьеєе└ещб╝└▀─ъ');
 define($constpref.'_ADMENU_SPAM_BLOCK', 'е╣е╤ер╦╔╗▀└▀─ъ');
+define($constpref.'_ADMENU_MISC', 'д╜д╬┬╛д╬└▀─ъ');
 
 // notice error
 define($constpref.'_MAIN_SWITCH_NOT_ENABLE', 'еседеєе╣еде├е┴д╟б╓<b>$1</b>б╫дм╠╡╕·д╦д╩д├д╞ддд▐д╣бгд│д│д╟д╬└▀─ъдЄ╡б╟╜д╡д╗дыд┐дсд╦д╧бвеседеєе╣еде├е┴д╟б╓<b>$1</b>б╫дЄ═н╕·д╦д╖д╞дпд└д╡ддбг');
+define($constpref.'_THERE_ARE_NO_CONFIG' , '╕╜║▀└▀─ъд╡дьд╞ддды╣р╠▄д╧двдъд▐д╗дєбгд╣д┘д╞╡м─ъ├═дм┼м═╤д╡дьд▐д╣бг');
 
 // main_switch
 define($constpref.'_USE_SET_QUERY_WORDS', '╕б║ўеяб╝е╔дЄ─ъ┐Їд╦е╗е├е╚');
@@ -53,8 +56,16 @@ define($constpref.'_INPUT_FILTER_STRENGTH_2', '└й╕ц╩╕╗·д╬╞т \t,\r,\n д╬д▀╡Ў▓─');
 // k_tai_render
 define($constpref.'_UA_REGEX', 'User agent');
 define($constpref.'_UA_REGEX_DESC', 'ете╨едеы┬╨▒■╡б╟╜д╟╜ш═¤д╣ды User agent дЄ PCRE(Perl╕▀┤╣)└╡╡м╔╜╕╜д╟╡н╜╥бг');
+define($constpref.'_THEMESET', 'XOOPSе╞б╝е▐');
+define($constpref.'_THEMESET_DESC', 'ете╨едеы┬╨▒■╗■д╦╗╚═╤д╣дые╞б╝е▐╠╛(╗╪─ъд╖д╩дд╛ь╣чд╧е╞б╝е▐д╬└┌дъ┬╪дидЄд╖д▐д╗дє)');
+define($constpref.'_TEMPLATESET', 'DBе╞еєе╫еьб╝е╚е╗е├е╚');
+define($constpref.'_TEMPLATESET_DESC', 'ете╨едеы┬╨▒■╗■д╦╗╚═╤д╣дыDBе╞еєе╫еьб╝е╚е╗е├е╚╠╛(╗╪─ъд╖д╩дд╛ь╣чд╧е╟е╒ейеые╚е╞еєе╫еьб╝е╚е╗е├е╚дм╗╚═╤д╡дьд▐д╣)');
 define($constpref.'_JQM_PROFILES', 'jQuery Mobile');
 define($constpref.'_JQM_PROFILES_DESC', 'jQuery Mobile дЄ┼м═╤д╣дые╫еэе╒ебедеы╠╛дЄелеєе▐╢ш└┌дъд╟╡н╜╥бге╫еэе╒ебедеы╠╛д╧╖╚┬╙┬╨▒■еьеєе└ещб╝д╟─ъ╡┴д╡дьд╞ддд╞бвdocomo, au, softbank, willcom, android, iphone, ipod, ipad, windows mobile д╩д╔дм╗╚═╤д╟днд▐д╣бг');
+define($constpref.'_THEMESETS_JQM', 'XOOPSе╞б╝е▐(jqm)');
+define($constpref.'_THEMESETS_JQM_DESC', 'jQuery Mobile ┼м═╤╗■д╬е╞б╝е▐╠╛(╗╪─ъд╖д╩дд╛ь╣чд╧бвете╨едеы┬╨▒■╗■д╬е╞б╝е▐╠╛дм╗╚═╤д╡дьд▐д╣)');
+define($constpref.'_TEMPLATESETS_JQM', 'DBе╞еєе╫еьб╝е╚е╗е├е╚(jqm)');
+define($constpref.'_TEMPLATESETS_JQM_DESC', 'jQuery Mobile ┼м═╤╗■д╬DBе╞еєе╫еьб╝е╚е╗е├е╚╠╛(╗╪─ъд╖д╩дд╛ь╣чд╧бвете╨едеы┬╨▒■╗■д╬е╞б╝е▐╠╛дм╗╚═╤д╡дьд▐д╣)');
 define($constpref.'_JQM_THEME', 'jqmе╞б╝е▐');
 define($constpref.'_JQM_THEME_DESC', 'е┌б╝е╕┴┤┬╬д╬ jQuery Mobile д╬е╞б╝е▐бг╔╕╜рд╟д╧ a, b, c, d, e дм═н╕·д╟д╣бг');
 define($constpref.'_JQM_THEME_CONTENT', 'еседеє╔Ї');
@@ -121,5 +132,11 @@ define($constpref.'_POST_SPAM_BADIP_FOREVER', '<b>Protector╧в╖╚</b>: ╠╡┤№╕┬евепе
 define($constpref.'_POST_SPAM_BADIP_FOREVER_DESC', '');
 define($constpref.'_POST_SPAM_BADIP_TTL0', '<b>Protector╧в╖╚</b>: ╠╡┤№╕┬евепе╗е╣╡ё╚▌╖╤┬│╗■┤╓[╔├] (0:╦▄┼Ўд╦╠╡┤№╕┬)');
 define($constpref.'_POST_SPAM_BADIP_TTL0_DESC', '');
+
+// misc
+define($constpref.'_MISC_HEAD_LAST_TAG', '&lt;head&gt;╞тд╬║╟╕хд╦┴▐╞■д╣дые┐е░');
+define($constpref.'_MISC_HEAD_LAST_TAG_DESC', 'д│д│д╦╡н╜╥д╖д┐╞т═╞дм &lt;/head&gt; д╬─╛┴░д╦┴▐╞■д╡дьд▐д╣бг&lt;meta&gt;, &lt;script&gt;, &lt;link&gt; е┐е░д╩д╔дм╡н╜╥д╟днд▐д╣бг<br />&lt;{$xoops_url}&gt; д▐д┐д╧ [XOOPS_URL] д╧ "'.XOOPS_URL.'" д╦├╓┤╣д╡дьд▐д╣бг');
+define($constpref.'_XOOPSTPL_PLUGINS_DIR', 'Smartyе╫еще░едеєе╟егеьепе╚еъ(═е└ш╜ч)');
+define($constpref.'_XOOPSTPL_PLUGINS_DIR_DESC', 'Smartyе╫еще░едеєдм╩▌┬╕д╡дьд╞дддые╟егеьепе╚еъдЄ╗╪─ъд╖д▐д╣бг╛хдлдщ═е└ш╜чд╦╣╘├▒░╠д╟╡н╜╥д╖д╞дпд└д╡ддбг(╞▒╠╛д╬е╒ебедеыдм┬╕║▀д╖д┐╛ь╣ч╛хд╬е╟егеьепе╚еъд╬е╒ебедеыдм╗╚═╤д╡дьд▐д╣)<br />▓┐дт╡н╞■д╗д║д╦╩▌┬╕д╣дыд╚XOOPSд╬╜щ┤№├═д╦╠сдъд▐д╣бг<br />╞╚╝ле╫еще░едеєдЄ┤╔═¤д╖д┐дд╛ь╣чд╧бв░ь╚╓╛хд╦ '.XOOPS_TRUST_PATH.'/lib/my_smartyplugins д╩д╔д╚д╖д╞бвд╜д╬е╟егеьепе╚еъд╦╞╚╝ле╫еще░едеєдЄ├╓дпд╚║╟═е└шд╟╗╚═╤д╡дьд▐д╣бг<br />ви ╜щ┤№╛ї┬╓д╟╔╜╝ид╡дьд╞дддые╟егеьепе╚еъд╦д─ддд╞└ь╠ч├╬╝▒дмд╩дд╛ь╣чд╧бв═е└ш╜ч░╠дт┤▐дсд╞╩╤╣╣д╡дьд╩ддд│д╚дЄдк┤лдсд╖д▐д╣бг');
 
 }
