@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: Legacy_EventFunctions.class.php,v 1.3 2008/09/25 15:12:01 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -101,10 +101,12 @@ class Legacy_EventFunction
 		// 'Notify' is prefix to guard accessing from misc.php.
 		//
 		$actionName = isset($_REQUEST['op']) ? trim(xoops_getrequest('op')) : "List";
-		if (isset($_REQUEST['delete'])) {
+		$deleteValue = $root->mContext->mRequest->getRequest('delete');
+		$cancelValue = $root->mContext->mRequest->getRequest('delete_cancel');
+		if (isset($deleteValue)) {
 			$actionName = "Delete";
 		}
-		if (isset($_REQUEST['delete_cancel'])) {
+		if (isset($cancelValue)){
 			$actionName = "Cancel";
 		}
 

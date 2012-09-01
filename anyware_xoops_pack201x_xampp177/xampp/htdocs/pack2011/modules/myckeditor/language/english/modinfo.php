@@ -8,8 +8,8 @@ if( defined( 'FOR_XOOPS_LANG_CHECKER' ) || ! defined( '_MI_MYCKEDITOR_LOADED' ) 
 
 define( '_MI_MYCKEDITOR_LOADED' , 1 ) ;
 
-define('_MI_MYCKEDITOR_LANG_MYCKEDITOR ', "myckeditor");
-define('_MI_MYCKEDITOR_DESC_MYCKEDITOR ', "http://ckeditor.com/");
+define('_MI_MYCKEDITOR_LANG_MYCKEDITOR', "myckeditor");
+define('_MI_MYCKEDITOR_DESC_MYCKEDITOR', "http://ckeditor.com/");
 
 define('_MI_MYCKEDITOR_LANG_FMANAGER', "[Browse Server]( For File) display buttom");
 define('_MI_MYCKEDITOR_DESC_FMANAGER', "");

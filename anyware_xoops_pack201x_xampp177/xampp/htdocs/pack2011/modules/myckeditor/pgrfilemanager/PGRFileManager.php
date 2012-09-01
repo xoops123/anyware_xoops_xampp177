@@ -70,12 +70,12 @@ if (isset($_POST['configchange'])) {
   <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <title>PGRFileManager v2.1.0</title>
-  <link rel="stylesheet" type="text/css" href="<?php echo XOOPS_URL ?>/common/css/smoothness/jquery-ui-1.8.16.custom.css" media="screen" charset="utf-8"/>
+  <link rel="stylesheet" type="text/css" href="<?php echo XOOPS_URL ?>/common/css/smoothness-1_8_17/jquery-ui-1.8.17.custom.css" media="screen" charset="utf-8"/>
   <link rel="stylesheet" type="text/css" href="css/jquery.treeview.css" media="screen" charset="utf-8"/>
   <link rel="stylesheet" type="text/css" href="css/fancybox/jquery.fancybox-1.3.4.css" media="screen" charset="utf-8"/>
   <link rel="stylesheet" type="text/css" href="css/PGRFileManager.css" media="screen" charset="utf-8"/>
   <script type="text/javascript" src="<?php echo XOOPS_URL ?>/common/js/jquery-1.7.1.min.js" charset="utf-8"></script>
-  <script type="text/javascript" src="<?php echo XOOPS_URL ?>/common/js/jquery-ui-1.8.16.custom.min.js" charset="utf-8"></script>
+  <script type="text/javascript" src="<?php echo XOOPS_URL ?>/common/js/jquery-ui-1.8.17.custom.min.js" charset="utf-8"></script>
   <script type="text/javascript" src="js/jquery.treeview.js" charset="utf-8"></script>
   <script type="text/javascript" src="js/jquery.cookie.js" charset="utf-8"></script>
   <script type="text/javascript" src="SWFUpload v2.2.0.1 Core/swfupload.js" charset="utf-8"></script>

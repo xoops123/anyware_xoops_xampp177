@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: Legacy_CacheInformation.class.php,v 1.4 2008/09/25 15:12:00 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -216,12 +216,15 @@ class Legacy_BlockCacheInformation extends Legacy_AbstractCacheInformation
         $this->mGetCacheFilePath->call(new XCube_Ref($filepath), $this);
         
         if (!$filepath) {
-            $id = md5(XOOPS_SALT . "(" . implode("_", $this->mIdentityArr) . ")" . implode("_", $this->mGroupArr));
-            $filepath = XOOPS_CACHE_PATH . "/bid".$this->mBlock->get('bid') . '_' . $id . ".cache.html";
+            $id = md5(XOOPS_SALT . '(' . implode('_', $this->mIdentityArr) . ')' . implode('_', $this->mGroupArr));
+            $filepath = $this->getCacheFileBase($this->mBlock->get('bid'), $id);
         }
-        
         return $filepath;
     }
+
+    static function getCacheFileBase($bid, $context) {
+		return XOOPS_CACHE_PATH . '/' . urlencode(XOOPS_URL) . '_bid'. $bid . '_' . $context . '.cache.html';
+	}
 }
 
 ?>

@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: Legacy_TextFilter.class.php,v 1.9 2008/09/25 15:11:57 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -74,25 +74,25 @@ class Legacy_TextFilter extends XCube_TextFilter
 	 */
 	function Legacy_TextFilter()
 	{
-		$this->mMakeClickableConvertTable = new XCube_Delegate;
-		$this->mMakeClickableConvertTable->register('Legacy_TextFilter.MakeClickableConvertTable');
-		$this->mMakeClickableConvertTable->add('Legacy_TextFilter::makeClickableConvertTable', XCUBE_DELEGATE_PRIORITY_2);
+		$obj = $this->mMakeClickableConvertTable = new XCube_Delegate;
+		$obj->register('Legacy_TextFilter.MakeClickableConvertTable');
+		$obj->add('Legacy_TextFilter::makeClickableConvertTable', XCUBE_DELEGATE_PRIORITY_2);
 
-		$this->mMakeXCodeConvertTable = new XCube_Delegate;
-		$this->mMakeXCodeConvertTable->register('Legacy_TextFilter.MakeXCodeConvertTable');
-		$this->mMakeXCodeConvertTable->add('Legacy_TextFilter::makeXCodeConvertTable', XCUBE_DELEGATE_PRIORITY_2);
+		$obj = $this->mMakeXCodeConvertTable = new XCube_Delegate;
+		$obj->register('Legacy_TextFilter.MakeXCodeConvertTable');
+		$obj->add('Legacy_TextFilter::makeXCodeConvertTable', XCUBE_DELEGATE_PRIORITY_2);
 
-		$this->mMakeXCodeCheckImgPatterns = new XCube_Delegate;
-		$this->mMakeXCodeCheckImgPatterns->register('Legacy_TextFilter.MakeXCodeCheckImgPatterns');
-		$this->mMakeXCodeCheckImgPatterns->add('Legacy_TextFilter::makeXCodeCheckImgPatterns', XCUBE_DELEGATE_PRIORITY_2);
+		$obj = $this->mMakeXCodeCheckImgPatterns = new XCube_Delegate;
+		$obj->register('Legacy_TextFilter.MakeXCodeCheckImgPatterns');
+		$obj->add('Legacy_TextFilter::makeXCodeCheckImgPatterns', XCUBE_DELEGATE_PRIORITY_2);
 
-		$this->mMakePreXCodeConvertTable = new XCube_Delegate;
-		$this->mMakePreXCodeConvertTable->register('Legacy_TextFilter.MakePreXCodeConvertTable');
-		$this->mMakePreXCodeConvertTable->add('Legacy_TextFilter::makePreXCodeConvertTable', XCUBE_DELEGATE_PRIORITY_2);
+		$obj = $this->mMakePreXCodeConvertTable = new XCube_Delegate;
+		$obj->register('Legacy_TextFilter.MakePreXCodeConvertTable');
+		$obj->add('Legacy_TextFilter::makePreXCodeConvertTable', XCUBE_DELEGATE_PRIORITY_2);
 
-		$this->mMakePostXCodeConvertTable = new XCube_Delegate;
-		$this->mMakePostXCodeConvertTable->register('Legacy_TextFilter.MakePostXCodeConvertTable');
-		$this->mMakePostXCodeConvertTable->add('Legacy_TextFilter::makePostXCodeConvertTable', XCUBE_DELEGATE_PRIORITY_2);
+		$obj = $this->mMakePostXCodeConvertTable = new XCube_Delegate;
+		$obj->register('Legacy_TextFilter.MakePostXCodeConvertTable');
+		$obj->add('Legacy_TextFilter::makePostXCodeConvertTable', XCUBE_DELEGATE_PRIORITY_2);
 
 		//@deprecated
 		//Todo: For keeping compatible with XC2.1 Beta3
