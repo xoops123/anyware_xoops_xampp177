@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: newblocks.php,v 1.3 2008/09/25 15:11:31 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -28,6 +28,11 @@ class LegacyNewblocksObject extends XoopsSimpleObject
 
 	function LegacyNewblocksObject()
 	{
+		static $initVars;
+		if (isset($initVars)) {
+			$this->mVars = $initVars;
+			return;
+		}
 		$this->initVar('bid', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('mid', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('func_num', XOBJ_DTYPE_INT, '0', true);
@@ -48,6 +53,7 @@ class LegacyNewblocksObject extends XoopsSimpleObject
 		$this->initVar('template', XOBJ_DTYPE_STRING, '', true, 50);
 		$this->initVar('bcachetime', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('last_modified', XOBJ_DTYPE_INT, time(), true);
+		$initVars = $this->mVars;
 	}
 	
 	function loadModule()

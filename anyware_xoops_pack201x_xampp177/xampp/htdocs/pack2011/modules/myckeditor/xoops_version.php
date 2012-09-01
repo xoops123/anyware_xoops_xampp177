@@ -2,7 +2,7 @@
 /**
  * @file xoops_version.php
  * @package myckeditor
- * @version $Id: ver0.07 2012/01/03 00:25:00 domifara $
+ * @version $Id: ver0.07 2012/01/08 03:11:00 domifara $
  */
 
 if (!defined('XOOPS_ROOT_PATH')) exit();
@@ -11,7 +11,7 @@ if (!defined('XOOPS_ROOT_PATH')) exit();
 // Define a basic manifesto.
 //
 $modversion['name'] = _MI_MYCKEDITOR_LANG_MYCKEDITOR;
-$modversion['version'] = 0.09;//ver0.07beta1
+$modversion['version'] = 0.10;//ver0.09beta1
 $modversion['description'] = _MI_MYCKEDITOR_DESC_MYCKEDITOR;
 $modversion['author'] = "HIKAWA Kilica http://xoopsdev.com/ , domifara";
 $modversion['credits'] = "HIKAWA Kilica , domifara";
@@ -75,7 +75,7 @@ $modversion['config'][1] = array(
 	'description' => '_MI_MYCKEDITOR_DESC_FMANAGER',
 	'formtype' => 'select',
 	'valuetype' => 'text',
-	'default'=> "filemanager" ,
+	'default'=> "pgrfilemanager" ,
 	'options' => array(
 					'none'=>'none',
 					'filemanager'=>'filemanager',
@@ -88,7 +88,7 @@ $modversion['config'][2] = array(
 	'description' => '_MI_MYCKEDITOR_DESC_FLASHM',
 	'formtype' => 'select',
 	'valuetype' => 'text',
-	'default'=> "none" ,
+	'default'=> "pgrfilemanager" ,
 	'options' => array(
 					'none'=>'none',
 					'pgrfilemanager'=>'pgrfilemanager'

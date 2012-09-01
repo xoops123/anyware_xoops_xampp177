@@ -41,7 +41,10 @@ abstract class Legacy_AbstractClientObjectHandler extends XoopsObjectGenericHand
 	public function insert(/*** XoopsSimpleObject ***/ $obj, /*** bool ***/ $force=false)
 	{
 		$ret = parent::insert($obj, $force);
-		$this->_setClientData($obj);
+		if ($ret == true)
+		{
+			$ret = $this->_setClientData($obj);
+		}
 	
 		return $ret;
 	}
@@ -342,7 +345,14 @@ abstract class Legacy_AbstractClientObjectHandler extends XoopsObjectGenericHand
 	 */
 	protected function _isActivityClient(/*** mixed[] ***/ $conf)
 	{
-		return $conf[$this->_mClientConfig['activity']]==1 ? true : false;
+		$key ='activity';
+		if(! isset($this->_mClientConfig[$key])){
+			return false;
+		}
+		if(! isset($conf[$this->_mClientConfig[$key]])){
+			return false;
+		}
+		return $conf[$this->_mClientConfig[$key]]==1 ? true : false;
 	}
 
 	/**
@@ -354,7 +364,14 @@ abstract class Legacy_AbstractClientObjectHandler extends XoopsObjectGenericHand
 	 */
 	protected function _isTagClient(/*** mixed[] ***/ $conf)
 	{
-		return $conf[$this->_mClientConfig['tag']] ? true : false;
+		$key ='tag';
+		if(! isset($this->_mClientConfig[$key])){
+			return false;
+		}
+		if(! isset($conf[$this->_mClientConfig[$key]])){
+			return false;
+		}
+		return $conf[$this->_mClientConfig[$key]] ? true : false;
 	}
 
 	/**
@@ -366,7 +383,14 @@ abstract class Legacy_AbstractClientObjectHandler extends XoopsObjectGenericHand
 	 */
 	protected function _isWorkflowClient(/*** mixed[] ***/ $conf)
 	{
-		return $conf[$this->_mClientConfig['workflow']]==1 ? true : false;
+		$key ='workflow';
+		if(! isset($this->_mClientConfig[$key])){
+			return false;
+		}
+		if(! isset($conf[$this->_mClientConfig[$key]])){
+			return false;
+		}
+		return $conf[$this->_mClientConfig[$key]] ? true : false;
 	}
 
 	/**
@@ -378,7 +402,14 @@ abstract class Legacy_AbstractClientObjectHandler extends XoopsObjectGenericHand
 	 */
 	protected function _isImageClient(/*** mixed[] ***/ $conf)
 	{
-		return $conf[$this->_mClientConfig['image']]==1 ? true : false;
+		$key ='image';
+		if(! isset($this->_mClientConfig[$key])){
+			return false;
+		}
+		if(! isset($conf[$this->_mClientConfig[$key]])){
+			return false;
+		}
+		return $conf[$this->_mClientConfig[$key]] ? true : false;
 	}
 
     /**
@@ -390,8 +421,15 @@ abstract class Legacy_AbstractClientObjectHandler extends XoopsObjectGenericHand
      */
     protected function _isMapClient(/*** mixed[] ***/ $conf)
     {
-        return $conf[$this->_mClientConfig['map']] ? true : false;
-    }
+		$key ='map';
+		if(! isset($this->_mClientConfig[$key])){
+			return false;
+		}
+		if(! isset($conf[$this->_mClientConfig[$key]])){
+			return false;
+		}
+		return $conf[$this->_mClientConfig[$key]]==1 ? true : false;
+	}
 
 	/**
 	 * get client field name

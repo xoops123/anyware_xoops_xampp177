@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: group_permission.php,v 1.3 2008/09/25 15:11:29 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -14,11 +14,17 @@ class LegacyGroup_permissionObject extends XoopsSimpleObject
 {
 	function LegacyGroup_permissionObject()
 	{
+		static $initVars;
+		if (isset($initVars)) {
+			$this->mVars = $initVars;
+			return;
+		}
 		$this->initVar('gperm_id', XOBJ_DTYPE_INT, '', true);
 		$this->initVar('gperm_groupid', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('gperm_itemid', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('gperm_modid', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('gperm_name', XOBJ_DTYPE_STRING, '', true, 50);
+		$initVars=$this->mVars;
 	}
 }
 

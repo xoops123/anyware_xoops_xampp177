@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: image.php,v 1.3 2008/09/25 15:11:33 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -19,6 +19,11 @@ class LegacyImageObject extends XoopsSimpleObject
 
 	function LegacyImageObject()
 	{
+		static $initVars;
+		if (isset($initVars)) {
+			$this->mVars = $initVars;
+			return;
+		}
 		$this->initVar('image_id', XOBJ_DTYPE_INT, '', false);
 		$this->initVar('image_name', XOBJ_DTYPE_STRING, '', true, 30);
 		$this->initVar('image_nicename', XOBJ_DTYPE_STRING, '', true, 255);
@@ -27,6 +32,7 @@ class LegacyImageObject extends XoopsSimpleObject
 		$this->initVar('image_display', XOBJ_DTYPE_BOOL, '1', true);
 		$this->initVar('image_weight', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('imgcat_id', XOBJ_DTYPE_INT, '0', true);
+		$initVars=$this->mVars;
 	}
 
 	function loadImagecategory()

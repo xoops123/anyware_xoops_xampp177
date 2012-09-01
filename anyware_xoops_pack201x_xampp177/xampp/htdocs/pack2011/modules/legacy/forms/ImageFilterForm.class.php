@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: ImageFilterForm.class.php,v 1.3 2008/09/25 15:12:39 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -20,9 +20,9 @@ define('IMAGE_SORT_KEY_IMAGE_CREATED', 5);
 define('IMAGE_SORT_KEY_IMAGE_DISPLAY', 6);
 define('IMAGE_SORT_KEY_IMAGE_WEIGHT', 7);
 define('IMAGE_SORT_KEY_IMGCAT_ID', 8);
-define('IMAGE_SORT_KEY_MAXVALUE', 8);
+define('IMAGE_SORT_KEY_MAXVALUE', 9);
 
-define('IMAGE_SORT_KEY_DEFAULT', IMAGE_SORT_KEY_IMAGE_WEIGHT);
+define('IMAGE_SORT_KEY_DEFAULT', '-'.IMAGE_SORT_KEY_IMAGE_CREATED);
 
 class Legacy_ImageFilterForm extends Legacy_AbstractFilterForm
 {
@@ -59,9 +59,11 @@ class Legacy_ImageFilterForm extends Legacy_AbstractFilterForm
 		$this->_mCriteria->add(new Criteria('image_display', 1));
 
 		$this->_mCriteria->addSort($this->getSort(), $this->getOrder());
+		/*
 		if (abs($this->mSort) != IMAGE_SORT_KEY_IMAGE_WEIGHT) {
-			$this->_mCriteria->addSort(IMAGE_SORT_KEY_IMAGE_WEIGHT, $this->getOrder());
+			$this->_mCriteria->addSort($this->mSortKeys[IMAGE_SORT_KEY_IMAGE_WEIGHT], $this->getOrder());
 		}
+		*/
 	}
 }
 

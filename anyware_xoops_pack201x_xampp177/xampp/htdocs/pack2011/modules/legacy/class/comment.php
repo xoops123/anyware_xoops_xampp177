@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: comment.php,v 1.3 2008/09/25 15:11:22 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -18,6 +18,11 @@ class LegacyCommentObject extends XoopsSimpleObject
 	
 	function LegacyCommentObject()
 	{
+		static $initVars;
+		if (isset($initVars)) {
+			$this->mVars = $initVars;
+			return;
+		}
 		$this->initVar('com_id', XOBJ_DTYPE_INT, '', true);
 		$this->initVar('com_pid', XOBJ_DTYPE_INT, '0', true);
 		$this->initVar('com_rootid', XOBJ_DTYPE_INT, '0', true);
@@ -38,6 +43,7 @@ class LegacyCommentObject extends XoopsSimpleObject
 		$this->initVar('doxcode', XOBJ_DTYPE_BOOL, '1', true);
 		$this->initVar('doimage', XOBJ_DTYPE_BOOL, '1', true);
 		$this->initVar('dobr', XOBJ_DTYPE_BOOL, '1', true);
+		$initVars=$this->mVars;
 	}
 	
 	/**

@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: Legacy_Utils.class.php,v 1.5 2008/09/25 15:11:21 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  */
 
@@ -54,14 +54,14 @@ class Legacy_Utils
 	 * @param XoopsModule $module
 	 * @return Legacy_Module
 	 */
-	function &createModule($module)
+	function &createModule($module, $loadConfig=true)
 	{
 		$instance = null;
 
 		//
 		// TODO need cache here?
 		//
-		XCube_DelegateUtils::call('Legacy_Utils.CreateModule', new XCube_Ref($instance), $module);
+		XCube_DelegateUtils::call('Legacy_Utils.CreateModule', new XCube_Ref($instance), $module, $loadConfig);
 		
 		if (is_object($instance) && is_a($instance, 'Legacy_AbstractModule')) {
 			return $instance;
@@ -81,10 +81,10 @@ class Legacy_Utils
 		}
 		
 		if (XC_CLASS_EXISTS($className)) {
-			$instance = new $className($module);
+			$instance = new $className($module, $loadConfig);
 		}
 		else {
-			$instance = new Legacy_ModuleAdapter($module);
+			$instance = new Legacy_ModuleAdapter($module, $loadConfig);
 		}
 		
 		return $instance;
