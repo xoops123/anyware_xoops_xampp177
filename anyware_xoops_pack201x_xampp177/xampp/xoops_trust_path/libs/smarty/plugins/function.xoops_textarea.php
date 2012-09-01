@@ -3,8 +3,8 @@
  *
  * @package Legacy
  * @version $Id: function.xoops_textarea.php,v 1.3 2008/09/25 15:12:35 kilica Exp $
- * @copyright Copyright 2005-2007 XOOPS Cube Project  <http://xoopscube.sourceforge.net/> 
- * @license http://xoopscube.sourceforge.net/license/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
+ * @copyright Copyright 2005-2007 XOOPS Cube Project  <https://github.com/xoopscube/legacy>
+ * @license https://github.com/xoopscube/legacy/blob/master/docs/GPL_V2.txt GNU GENERAL PUBLIC LICENSE Version 2
  *
  * [ToDo]
  * [ToDo]
@@ -37,14 +37,17 @@
  * -------------------------------------------------------------
  */
 
-define ("XOOPS_TEXTAREA_DEFID_PREFIX", "legacy_xoopsform_");
-define ("XOOPS_TEXTAREA_DEFAULT_COLS", "50");
-define ("XOOPS_TEXTAREA_DEFAULT_ROWS", "5");
+define ('XOOPS_TEXTAREA_DEFID_PREFIX', 'legacy_xoopsform_');
+define ('XOOPS_TEXTAREA_DEFAULT_COLS', '50');
+define ('XOOPS_TEXTAREA_DEFAULT_ROWS', '5');
 
 function smarty_function_xoops_textarea($params, &$smarty)
 {
-    $root =& XCube_Root::getSingleton();
-    $textFilter =& $root->getTextFilter();
+	static $textFilter;
+	if (!isset($textFilter)) {
+		$root =& XCube_Root::getSingleton();
+		$textFilter = $root->getTextFilter();
+	}
 	if (isset($params['name'])) {
 		//
 		// Fetch major elements from $params.
@@ -61,23 +64,23 @@ function smarty_function_xoops_textarea($params, &$smarty)
 		//
 		// Build string.
 		//
-		$string = "<textarea name=\"${name}\" cols=\"${cols}\" rows=\"${rows}\"";
+		$string = "<textarea name=\"$name\" cols=\"$cols\" rows=\"$rows\"";
 		
 		if ($class) {
-			$string .= " class=\"${class}\"";
+			$string .= " class=\"$class\"";
 		}
 
         if ($style) {
-            $string .= " style=\"${style}\"";
+            $string .= " style=\"$style\"";
         }
 
 		$string .= " id=\"$id\"";
 		
 		if($readonly) {
-			$string .= " readonly=\"readonly\"";
+			$string .= ' readonly="readonly"';
 		}
 
-		$string .= ">" . $value . "</textarea>";
+		$string .= '>' . $value . '</textarea>';
 
 		//
 		// Output.

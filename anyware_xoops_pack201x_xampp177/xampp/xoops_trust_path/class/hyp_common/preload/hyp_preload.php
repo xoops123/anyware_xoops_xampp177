@@ -1,4 +1,12 @@
 <?php
+// hide strict error
+if (defined('E_STRICT')) {
+	$_error_reporting = error_reporting();
+	if (($_error_reporting & E_STRICT) == E_STRICT) {
+		error_reporting($_error_reporting ^ E_STRICT);
+	}
+}
+
 define('X2_ADD_SMARTYPLUGINS_DIR', XOOPS_TRUST_PATH . '/libs/smartyplugins/x2');
 define('HYP_COMMON_PRELOAD_CONF', '/uploads/hyp_common/hypconf_'.md5(XOOPS_URL . (defined('XOOPS_SALT')?XOOPS_SALT:XOOPS_DB_PASS)).'.conf');
 //// mbstring ////
@@ -61,6 +69,7 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 
 	var $wizMobileUse = FALSE;
 	var $detect_order_org = array();
+	var $changeContentLength = false;
 
 	// コンストラクタ
 	function HypCommonPreLoadBase (& $controller) {
@@ -245,14 +254,16 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 		if (! isset($this->xpwiki_render_dirname)) $this->xpwiki_render_dirname = '';
 		if (! isset($this->xpwiki_render_use_wikihelper)) $this->xpwiki_render_use_wikihelper = 0;
 		if (! isset($this->xpwiki_render_notuse_wikihelper_modules)) $this->xpwiki_render_notuse_wikihelper_modules = array();
-
+		if (! isset($this->misc_head_last_tag)) $this->misc_head_last_tag = '';
+		if (! isset($this->xoopstpl_plugins_dir)) $this->xoopstpl_plugins_dir = '';
+		
 		// init
 		$this->nowModuleDirname = '';
 		$this->detect_order_org = mb_detect_order();
 
 		// Load conf file.
 		$conffile = XOOPS_TRUST_PATH . HYP_COMMON_PRELOAD_CONF;
-		$sections = array('main_switch', 'xpwiki_render', 'spam_block');
+		$sections = array('main_switch', 'xpwiki_render', 'spam_block', 'misc');
 		if (is_file($conffile) && $conf = parse_ini_file($conffile, true)) {
 			foreach($conf as $name => $section) {
 				if ($name === 'k_tai_conf') {
@@ -300,8 +311,9 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 					unset($_COOKIE['_hypktaipc']);
 				}
 			}
+			$_k_tai_ua_regex = isset($this->k_tai_conf['ua_regex#'.XOOPS_URL])? $this->k_tai_conf['ua_regex#'.XOOPS_URL] : $this->k_tai_conf['ua_regex'];
 			if (empty($_COOKIE['_hypktaipc']) && isset($_SERVER['HTTP_USER_AGENT']) &&
-				preg_match($this->k_tai_conf['ua_regex'], $_SERVER['HTTP_USER_AGENT'])) {
+				preg_match($_k_tai_ua_regex, $_SERVER['HTTP_USER_AGENT'])) {
 
 				// Reset each site values.
 				foreach (array_keys($this->k_tai_conf) as $key) {
@@ -412,35 +424,41 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 
 	function preBlockFilter()
 	{
-		// Use K_TAI Render (XCL only)
-		if (defined('XOOPS_CUBE_LEGACY') && defined('HYP_K_TAI_RENDER') && HYP_K_TAI_RENDER) {
-
-			// Set theme set
-			if (isset($this->k_tai_conf['themeSet']) && is_file(XOOPS_THEME_PATH . '/' . $this->k_tai_conf['themeSet'] . '/theme.html')) {
-				$GLOBALS['xoopsConfig']['theme_set'] = $this->k_tai_conf['themeSet'];
-				$this->mRoot->mContext->setThemeName($this->k_tai_conf['themeSet']);
-				$this->mRoot->mDelegateManager->add( 'XoopsTpl.New' , array(& $this , '_xoopsConfig_theme_set' ) , XCUBE_DELEGATE_PRIORITY_FIRST) ;
+		// XCL only
+		if (defined('XOOPS_CUBE_LEGACY')) {
+			
+			// xoopsTpl plugins dir
+			$this->mRoot->mDelegateManager->add( 'Legacy_RenderSystem.SetupXoopsTpl' , array(& $this , '_xoopsConfig_tpl_hook' ) , XCUBE_DELEGATE_PRIORITY_FINAL) ;
+			
+			// Use K_TAI Render 
+			if (defined('HYP_K_TAI_RENDER') && HYP_K_TAI_RENDER) {
+				// Set theme set
+				if (isset($this->k_tai_conf['themeSet']) && is_file(XOOPS_THEME_PATH . '/' . $this->k_tai_conf['themeSet'] . '/theme.html')) {
+					$GLOBALS['xoopsConfig']['theme_set'] = $this->k_tai_conf['themeSet'];
+					$this->mRoot->mContext->setThemeName($this->k_tai_conf['themeSet']);
+					$this->mRoot->mDelegateManager->add( 'XoopsTpl.New' , array(& $this , '_xoopsConfig_theme_set' ) , XCUBE_DELEGATE_PRIORITY_FIRST) ;
+				}
+	
+				// Set template set
+				if (! empty($this->k_tai_conf['templateSet'])) {
+					$GLOBALS['xoopsConfig']['template_set'] = $this->k_tai_conf['templateSet'];
+					$this->mRoot->mDelegateManager->add( 'XoopsTpl.New' , array(& $this , '_xoopsConfig_template_set' ) , XCUBE_DELEGATE_PRIORITY_FIRST) ;
+				}
+				
+		        // For cubeUtils (disable auto login)
+		        $config_handler =& xoops_gethandler('config');
+		        $moduleConfigCubeUtils =& $config_handler->getConfigsByDirname('cubeUtils');
+				if ($moduleConfigCubeUtils) {
+		        	$moduleConfigCubeUtils['cubeUtils_use_autologin'] = FALSE;
+				}
+	
+				include_once(dirname(dirname(__FILE__)).'/xc_classes/disabledBlock.php');
+				$this->mRoot->mDelegateManager->add( 'Legacy_Utils.CreateBlockProcedure' , array(& $this , 'blockControlXCL' )) ;
+	
+				// For STD cache module (cache disabled)
+				$this->mController->mSetBlockCachePolicy->add(array(& $this, '_stdCacheHook'), XCUBE_DELEGATE_PRIORITY_FIRST + 11);
+				$this->mController->mSetModuleCachePolicy->add(array(& $this, '_stdCacheHook'), XCUBE_DELEGATE_PRIORITY_FIRST + 11);
 			}
-
-			// Set template set
-			if (! empty($this->k_tai_conf['templateSet'])) {
-				$GLOBALS['xoopsConfig']['template_set'] = $this->k_tai_conf['templateSet'];
-				$this->mRoot->mDelegateManager->add( 'XoopsTpl.New' , array(& $this , '_xoopsConfig_template_set' ) , XCUBE_DELEGATE_PRIORITY_FIRST) ;
-			}
-
-	        // For cubeUtils (disable auto login)
-	        $config_handler =& xoops_gethandler('config');
-	        $moduleConfigCubeUtils =& $config_handler->getConfigsByDirname('cubeUtils');
-			if ($moduleConfigCubeUtils) {
-	        	$moduleConfigCubeUtils['cubeUtils_use_autologin'] = FALSE;
-			}
-
-			include_once(dirname(dirname(__FILE__)).'/xc_classes/disabledBlock.php');
-			$this->mRoot->mDelegateManager->add( 'Legacy_Utils.CreateBlockProcedure' , array(& $this , 'blockControlXCL' )) ;
-
-			// For STD cache module (cache disabled)
-			$this->mController->mSetBlockCachePolicy->add(array(& $this, '_stdCacheHook'), XCUBE_DELEGATE_PRIORITY_FIRST + 11);
-			$this->mController->mSetModuleCachePolicy->add(array(& $this, '_stdCacheHook'), XCUBE_DELEGATE_PRIORITY_FIRST + 11);
 		}
 	}
 
@@ -451,7 +469,42 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 	function _xoopsConfig_template_set () {
 		$GLOBALS['xoopsConfig']['template_set'] = $this->k_tai_conf['templateSet'];
 	}
-
+	
+	function _xoopsConfig_tpl_hook (&$xoopsTpl) {
+		
+		if (empty($this->xoopstpl_plugins_dir) || strpos($this->xoopstpl_plugins_dir, rtrim(SMARTY_DIR, '/') . '/plugins') === false) {
+			$target_dir = XOOPS_TRUST_PATH.'/libs/smartyplugins';
+			if(is_dir($target_dir)) {
+				$_1st = array_shift($xoopsTpl->plugins_dir);
+				if (defined('LEGACY_BASE_VERSION') && version_compare(LEGACY_BASE_VERSION, '2.2.1.0', '>=')) {
+			
+					// XCL >= 2.2.1 (Revision >= 982 Feature Request #3165296 - Replace resource.db.php with HD version)
+					// see http://xoopscube.svn.sourceforge.net/viewvc/xoopscube/Package_Legacy/branches/r2_2_00-branch/xoops_trust_path/libs/smarty/plugins/resource.db.php?revision=982&view=markup
+			
+					if ($_1st === $target_dir) {
+						$_1st = array_shift($xoopsTpl->plugins_dir);
+					}
+					// regist 2nd
+					array_unshift($xoopsTpl->plugins_dir, $_1st, $target_dir);
+				} else {
+					// regist first
+					if ($_1st !== $target_dir) {
+						array_unshift($xoopsTpl->plugins_dir, $target_dir, $_1st);
+					} else {
+						array_unshift($xoopsTpl->plugins_dir, $_1st) ;
+					}
+				}
+			}
+		} else {
+			$plugins_dir = preg_split('/\s+/', trim($this->xoopstpl_plugins_dir));
+			$xoopsTpl->plugins_dir = $plugins_dir;
+		}
+		
+		$compile_id = substr(XOOPS_URL, 7) . '-' . $GLOBALS['xoopsConfig']['template_set'] . '-' . $GLOBALS['xoopsConfig']['theme_set'] ;
+		$xoopsTpl->compile_id = $compile_id ;
+		$xoopsTpl->_compile_id = $compile_id ;
+	}
+	
 	function _stdCacheHook (& $cacheInfo) {
 		$cacheInfo->setEnableCache(false);
 	}
@@ -514,7 +567,7 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 				define ('HYP_GET_ENCODING', strtoupper(mb_detect_encoding($enchint)));
 				$_GET = HypCommonFunc::input_filter($_GET, $this->input_filter_strength, HYP_GET_ENCODING);
 				if (HYP_GET_ENCODING !== $this->encode) {
-					mb_convert_variables($this->encode, HYP_GET_ENCODING, $_GET);
+					mb_convert_variables(($this->encode === 'EUC-JP')? 'eucJP-win' : $this->encode, (HYP_GET_ENCODING === 'EUC-JP')? 'eucJP-win' : HYP_GET_ENCODING, $_GET);
 					if (isset($_GET['charset'])) $_GET['charset'] = $this->encode;
 				}
 			} else {
@@ -568,7 +621,7 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 
 			// 文字コードを正規化
 			if (! $this->wizMobileUse && defined('HYP_POST_ENCODING') && $this->encode !== HYP_POST_ENCODING) {
-				mb_convert_variables($this->encode, HYP_POST_ENCODING, $_POST);
+				mb_convert_variables(($this->encode === 'EUC-JP')? 'eucJP-win' : $this->encode, (HYP_POST_ENCODING === 'EUC-JP')? 'eucJP-win' : HYP_POST_ENCODING, $_POST);
 				if (isset($_POST['charset'])) $_POST['charset'] = $this->encode;
 			}
 
@@ -1129,12 +1182,29 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 				}
 			}
 		}
+		
+		if (! defined('HYP_COMMON_HYPCONF_ADMIN_MODE') && $this->misc_head_last_tag) {
+			$_tag = $this->misc_head_last_tag;
+			$_tag = str_replace(array('<{$xoops_url}>', '[XOOPS_URL]'), XOOPS_URL, $_tag);
+			$GLOBALS['hyp_preload_head_tag'] .= "\n" . $_tag;
+		}
 
 		if (! empty($GLOBALS['hyp_preload_head_tag'])) {
 			list($head, $body) = array_pad(explode('</head>', $s, 2), 2, '');
 			if (! $body) return false;
 			$s = $head . $GLOBALS['hyp_preload_head_tag'] . '</head>' . $body;
+			$this->changeContentLength = true;
 		}
+
+		if ($this->changeContentLength && function_exists('headers_list')) {
+			foreach (headers_list() as $header) {
+				if (preg_match('/^Content-Length:/i', $header)) {
+					header('Content-Length: ' . strlen($s));
+					break;
+				}
+			}
+ 		}
+ 		
 		return $s;
 	}
 
@@ -1145,7 +1215,14 @@ class HypCommonPreLoadBase extends XCube_ActionFilter {
 		if (function_exists('mb_convert_encoding') && $this->configEncoding && $this->encode !== $this->configEncoding) {
 			$this->msg_words_highlight = mb_convert_encoding($this->msg_words_highlight, $this->encode, $this->configEncoding);
 		}
-		return HypGetQueryWord::word_highlight($s, (defined($this->q_word2)? constant($this->q_word) . ' ' . constant($this->q_word2) : constant($this->q_word)), $this->encode, $this->msg_words_highlight, $this->extlink_class_name);
+		
+		$ret = HypGetQueryWord::word_highlight($s, (defined($this->q_word2)? constant($this->q_word) . ' ' . constant($this->q_word2) : constant($this->q_word)), $this->encode, $this->msg_words_highlight, $this->extlink_class_name);
+		
+		if (strlen($s) === $ret) return false;
+		
+		$this->changeContentLength = true;
+		
+		return $ret;
 	}
 
 	function smartRedirect( $s ) {
@@ -1217,6 +1294,7 @@ EOD;
 				$s = preg_replace('#</body>#i', $js_foot . '$0', $s);
 			}
 			unset($_SESSION['hyp_redirect_message'], $_SESSION['hyp_redirect_wait']);
+			$this->changeContentLength = true;
 			return $s;
 		}
 	}
@@ -1242,9 +1320,13 @@ EOD;
 		}
 		if ($insert) {
 			$insert = "\n".$insert."\n";
-			return preg_replace('/<form[^>]+?>/isS' ,
-				"$0".$insert, $s);
+			return preg_replace_callback('#(<script.+?/script>)|<form[^>]+?>#isS',
+				create_function('$match','
+					if ($match[1]) return $match[0];
+					return $match[0].\''.$insert.'\';
+				'), $s);
 		}
+		$this->changeContentLength = true;
 		return $s;
 	}
 
@@ -1394,17 +1476,17 @@ EOD;
 				$blockmenu = join('</li><li>', $blockmenu);
 				$body .= <<<EOD
 <!--blockMenu-->
+<div id="keitaiblockmenu" data-role="header">
+ <div data-role="navbar">
+  <ul><li>{$blockmenu}</li></ul>
+ </div>
+</div>
 <div data-role="header">
  <a href="{$_url}" data-ajax="false" data-icon="home" data-iconpos="notext">Home</a>
  <h4>
   <a id="keitaifixedbar_main" href="#keitaiMainContents" data-ajax="false" style="display:inline;text-decoration:none;"><pagetitle></a>
  </h4>
  <a id="keitaifixedbar_block" href="#" data-ajax="false" data-icon="grid" data-iconpos="notext">block</a>
- <div id="keitaiblockmenu" style="display:none" data-role="header">
-  <div data-role="navbar">
-   <ul><li>{$blockmenu}</li></ul>
-  </div>
- </div>
 </div>
 <!--/blockMenu-->
 EOD;
@@ -1724,7 +1806,9 @@ EOD;
 		header('Content-Type: ' . $ctype . '; charset=' . $charset);
 		header('Content-Length: ' . strlen($s));
 		header('Cache-Control: no-cache');
-
+		
+		$this->changeContentLength = true;
+		
 		return $s;
 	}
 
@@ -1741,7 +1825,9 @@ EOD;
 			$mpc->setString($str, FALSE);
 			$str = $mpc->autoConvertModKtai();
 		}
-
+		
+		$this->changeContentLength = true;
+		
 		return $str;
 	}
 
@@ -1752,6 +1838,9 @@ EOD;
 
 			$str = mb_convert_encoding($str, 'UTF-8', $this->encode);
 			header('Content-Type: text/html; charset=UTF-8');
+			
+			$this->changeContentLength = true;
+			
 			return $str;
 		} else {
 			return false;

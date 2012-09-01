@@ -18,6 +18,7 @@ if (is_file(HYP_COMMON_ROOT_PATH . '/config/hyp_common.conf.php')) {
 // define
 //if (! defined('HYP_IMAGEMAGICK_UNSHARP')) define('HYP_IMAGEMAGICK_UNSHARP', '1.5x1.2+1.0+0.10');
 if (! defined('HYP_IMAGEMAGICK_UNSHARP')) define('HYP_IMAGEMAGICK_UNSHARP', '100|0.5|3');
+if (! defined('HYP_QUOTE')) define('HYP_QUOTE', '"');
 
 // PATH_SEPARATOR
 if (! defined('PATH_SEPARATOR')) {
@@ -112,16 +113,16 @@ class HypCommonFunc
 	}
 
 	// 配列対応 & gpc 対応のstripslashes
-	function stripslashes_gpc(&$v)
+	function stripslashes_gpc(&$v, $check = false)
 	{
-		if(ini_get("magic_quotes_gpc"))
+		if ($check || get_magic_quotes_gpc()) 
 		{
 			if (is_array($v))
 			{
 				$arr =array();
 				foreach($v as $k=>$m)
 				{
-					$arr[$k] = HypCommonFunc::stripslashes_gpc($m);
+					$arr[$k] = HypCommonFunc::stripslashes_gpc($m, true);
 				}
 				$v = $arr;
 			}

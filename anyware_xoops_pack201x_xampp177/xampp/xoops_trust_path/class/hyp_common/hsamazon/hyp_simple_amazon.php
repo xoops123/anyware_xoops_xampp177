@@ -44,6 +44,8 @@ class HypSimpleAmazon
 	);
 	var $marketplace_listup = FALSE;
 	var $ServiceName = 'amazon';
+	var $parseXml = true;
+	var $releaseTime = array();
 
 	function HypSimpleAmazon ($AssociateTag = '', $AccessKeyId = null, $SecretAccessKey = null) {
 
@@ -66,6 +68,18 @@ class HypSimpleAmazon
 			}
 			if (isset($ini['SecretAccessKey'])) {
 				$this->SecretAccessKey = $ini['SecretAccessKey'];
+			}
+			if (defined('XOOPS_CUBE_LEGACY') && (! $AssociateTag || ! $this->AccessKeyId || ! $this->SecretAccessKey)) {
+				$xcroot = XCube_Root::getSingleton();
+				if (! $this->AccessKeyId) {
+					$this->AccessKeyId = $xcroot->getSiteConfig('amazon', 'AWSAccessKeyId');
+				}
+				if (! $AssociateTag) {
+					$AssociateTag = $xcroot->getSiteConfig('amazon', 'AssociateTag');
+				}
+				if (! $this->SecretAccessKey) {
+					$this->SecretAccessKey = $xcroot->getSiteConfig('amazon', 'secret_key');
+				}
 			}
 		} else {
 			$this->AccessKeyId = $AccessKeyId;
@@ -167,20 +181,24 @@ class HypSimpleAmazon
 			if ($ht->rc === 200 || $ht->rc === 403) {
 				$data = $ht->data;
 
-				$xm = new HypSimpleXML();
-
-				$this->xml = $xm->XMLstr_in($data);
-				//var_dump($this->xml);exit();
-				if ($xm->error) {
-					$this->error = $xm->error;
-				} else if ($error = @ $this->xml['Items']['Request']['Errors']['Error']) {
-					$this->error = mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
-				} else if ($error = @ $this->xml['Items'][0]['Request']['Errors']['Error']) {
-					$this->error = mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
-				} else if ($error = @ $this->xml['OperationRequest']['Errors']['Error']) {
-					$this->error = $error['Code'] . ': ' . mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
-				} else if ($error = @ $this->xml['Error']) {
-					$this->error = $error['Code'] . ': ' . mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
+				if (! $this->parseXml) {
+					$this->xml = '';
+				} else {
+					$xm = new HypSimpleXML();
+	
+					$this->xml = $xm->XMLstr_in($data);
+					//var_dump($this->xml);exit();
+					if ($xm->error) {
+						$this->error = $xm->error;
+					} else if ($error = @ $this->xml['Items']['Request']['Errors']['Error']) {
+						$this->error = mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
+					} else if ($error = @ $this->xml['Items'][0]['Request']['Errors']['Error']) {
+						$this->error = mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
+					} else if ($error = @ $this->xml['OperationRequest']['Errors']['Error']) {
+						$this->error = $error['Code'] . ': ' . mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
+					} else if ($error = @ $this->xml['Error']) {
+						$this->error = $error['Code'] . ': ' . mb_convert_encoding($error['Message'], $this->encoding, 'UTF-8');
+					}
 				}
 			} else {
 				$this->xml = '';
@@ -541,12 +559,12 @@ class HypSimpleAmazon
 				$_price = $this->get_price($item);
 				$_item['PRICE']= $_price[0];
 				$_item['MERCHANTID'] = $this->get_merchantid($item);
-				if ($_item['MERCHANTID']) {
+				if ($this->searchHost === 'www.javari.jp') {
+					$_item['GUIDEURL'] = 'free';
+				} else if ($_item['MERCHANTID']) {
 					$_item['GUIDEURL'] = 'http://' . $this->searchHost . str_replace(array('<url>', '<tag>'), array(rawurlencode('http://www.amazon.co.jp/gp/help/seller/shipping.html?ie=UTF8&asin='.$_item['ASIN'].'&seller='.$_item['MERCHANTID']), $this->AssociateTag), $this->redirectQuery);
 				} else if (! $_item['AVAILABILITY']) {
 					$_item['GUIDEURL'] = 'http://' . $this->searchHost . str_replace(array('<url>', '<tag>'), array(rawurlencode('http://www.amazon.co.jp/gp/help/customer/display.html?nodeId=1104814'), $this->AssociateTag), $this->redirectQuery);
-				} else if ($_item['PRICE'] < 1500) {
-					$_item['GUIDEURL'] = 'http://' . $this->searchHost . str_replace(array('<url>', '<tag>'), array(rawurlencode('http://www.amazon.co.jp/gp/help/customer/display.html?nodeId=642982'), $this->AssociateTag), $this->redirectQuery);
 				} else {
 					$_item['GUIDEURL'] = 'free';
 				}
@@ -882,6 +900,7 @@ class HypSimpleAmazon
 		}
 		if ($timeString) {
 			$item['ReleaseUTIME'] = intval(@ strtotime($timeString, strtotime(date('Y').'/1/1')));
+			$this->releaseTime[trim($item['ItemAttributes']['Title'])] = $item['ReleaseUTIME'];
 			$this->newestTime = max($item['ReleaseUTIME'], $this->newestTime);
 		}
 		return $timeString;
@@ -926,6 +945,11 @@ class HypSimpleAmazon
 			$str = mb_substr($str, 0, $len) . '...';
 		}
 		return $str;
+	}
+	
+	function getReleaseTime($title) {
+		$title = mb_convert_encoding(trim($title), 'UTF-8', $this->encoding);
+		return isset($this->releaseTime[$title])? $this->releaseTime[$title] : $this->newestTime;
 	}
 }
 

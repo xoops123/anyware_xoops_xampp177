@@ -438,19 +438,19 @@ class HypKTaiRender
 		$body = str_replace(array('<ns>', '</ns>'), '', $body);
 
 		if (! $this->Config_no_diet) {
-		// Optimize query strings
-		$_func = create_function(
-			'$match',
-			'if ($match[3][0] === \'?\') $match[3] = preg_replace(\'/^.*?'.$h_reg.'(#[^#]+)?$/\', \'?' . str_replace("'", "\\'", $this->SERVER['QUERY_STRING']) . '$1\', $match[3]);' .
-			'$match[3] = preg_replace(\'/(?:&(?:amp;)?)+/\', \'&amp;\', $match[3]);' .
-			'$match[3] = str_replace(\'?&amp;\', \'?\', $match[3]);' .
-			'$match[3] = str_replace(array(\'?#\', \'&amp;#\'), \'#\', $match[3]);' .
-			'return $match[1] . $match[3] . (isset($match[4])? $match[4] : \'\');'
-		);
-		$_reg = '#(<a[^>]*? href=([\'"])?)([^\s"\'>]+)(\\2)?#isS';
-		$header = preg_replace_callback($_reg, $_func, $header);
-		$body   = preg_replace_callback($_reg, $_func, $body);
-		$footer = preg_replace_callback($_reg, $_func, $footer);
+			// Optimize query strings
+			$_func = create_function(
+				'$match',
+				'if ($match[3][0] === \'?\') $match[3] = preg_replace(\'/^.*?'.$h_reg.'(#[^#]+)?$/\', \'?' . str_replace("'", "\\'", $this->SERVER['QUERY_STRING']) . '$1\', $match[3]);' .
+				'$match[3] = preg_replace(\'/(?:&(?:amp;)?)+/\', \'&amp;\', $match[3]);' .
+				'$match[3] = str_replace(\'?&amp;\', \'?\', $match[3]);' .
+				'$match[3] = str_replace(array(\'?#\', \'&amp;#\'), \'#\', $match[3]);' .
+				'return $match[1] . $match[3] . (isset($match[4])? $match[4] : \'\');'
+			);
+			$_reg = '#(<a[^>]*? href=([\'"])?)([^\s"\'>]+)(\\2)?#isS';
+			$header = preg_replace_callback($_reg, $_func, $header);
+			$body   = preg_replace_callback($_reg, $_func, $body);
+			$footer = preg_replace_callback($_reg, $_func, $footer);
 		}
 
 		if ($googleAdsenseHtml) {
@@ -482,6 +482,17 @@ class HypKTaiRender
 			}
 		}
 
+		// スマホのみ有効にする部分
+		$body = str_replace('<!--HypSmartOnly', '', $body);
+		$body = str_replace('HypSmartOnly-->', '', $body);
+		
+		// 無視する部分(<!--HypSmartIgnore-->...<!--/HypSmartIgnore-->)を削除
+		while(strpos($body, '<!--HypSmartIgnore-->') !== FALSE) {
+			$arr1 = explode('<!--HypSmartIgnore-->', $body, 2);
+			$arr2 = array_pad(explode('<!--/HypSmartIgnore-->', $arr1[1], 2), 2, '');
+			$body = $arr1[0] . $arr2[1];
+		}
+		
 		// img src のチェック
 		if ($this->Config_jquery_image_convert) {
 			$this->Config_pictSizeMax = intval($this->Config_jquery_image_convert);
@@ -496,12 +507,34 @@ class HypKTaiRender
 		// "on*" 属性のあるフォームエレメントは jqm で装飾しない
 		$body = preg_replace('#(<(?:input|select|textarea))([^>]+? on[^>]+>)#iS', '$1 data-role="none"$2', $body);
 
+		// jqm 1.1.0 から checkbox, radio に <label for=...> が必須になった？
+		// @todo jqm バージョンアップ時に確認すること
+		// <label>...<input>...</label> は対応したっぽい
+		// https://github.com/jquery/jquery-mobile/commit/cf21c53520a60a689d57c3187daba1cf25f160b5
+		$body = preg_replace_callback('#(<[^>]+>[^<>]*)(<input[^>]+type=["\']?(?:checkbox|radio)[^>/]+)/?'.'>([^<>]*<[^>]+>)#i', array(& $this, '_check_checkbox_smart'), $body);
+		
 		// give data-ajax="false"
 		$body = preg_replace_callback('#(<script.+?/script>)|((<(?:a|form)[^>]+?)((?:href|action)=("|\')([^>]+?)\\5)([^>]*?>))#isS', array(& $this, '_check_href_smart'), $body);
 
 		return $body;
 	}
 
+	function _check_checkbox_smart_check($tag) {
+		if (preg_match('#([^<>]*<input[^>]+type=["\']?(?:checkbox|radio)[^>/]+)/?>([^<>]*)#i', $tag, $match)) {
+			return $match[1].' data-role="none">'.$match[2];
+		} else {
+			return $tag;
+		}
+	}
+	
+	function _check_checkbox_smart($match) {
+		static $reg = '#<label#i';
+		if (preg_match($reg, $match[1]) || preg_match($reg, $match[3])) {
+			return $match[0];
+		}
+		return $this->_check_checkbox_smart_check($match[1]).$match[2].' data-role="none">'.$this->_check_checkbox_smart_check($match[3]);
+	}
+	
 	function _check_href_smart($match) {
 		if ($match[1] || strpos($match[2], 'data-ajax=') !== false) {
 			return $match[0];
@@ -1339,7 +1372,8 @@ class HypKTaiRender
 //				$this->vars['ua']['agent'] = $ua_agent = $this->SERVER['HTTP_USER_AGENT'];
 //				$this->vars['ua']['name'] = $ua_name = $match[1];
 //				$this->vars['ua']['ver'] = $ua_vers = isset($match[2])? $match[2] : '';
-
+			$carrier = 'unknown';
+			//if ( preg_match('#((Android|Windows Phone|BlackBerry|(?:web|hpw)OS))#', $this->SERVER['HTTP_USER_AGENT'], $match)
 			if ( preg_match('#((Android|Windows Phone))#', $this->SERVER['HTTP_USER_AGENT'], $match)
 			  || preg_match('#(?:^(?:KDDI-([^\s]+) |Mozilla/[0-9.]+\s*\()?|\b)([a-zA-Z.-]+)(?:/([0-9.]+)(?:(?:/| )([a-zA-Z0-9.-]+))?)?#', $this->SERVER['HTTP_USER_AGENT'], $match)
 			   ) {
@@ -1433,176 +1467,189 @@ class HypKTaiRender
 					case 'iPad':
 					case 'Android':
 					case 'Windows Phone':
+					case 'BlackBerry':
+					case 'PlayBook':
+					case 'webOS':
+					case 'hpwOS':
 						$max_size = 0;
 						$carrier = strtolower($ua_name);
 						break;
-
+					default:
+						$max_size = 0;
+						$carrier = 'unknown';
+						break;
 				}
 
 				if ($max_size) {
 					$this->maxSize = $max_size * 1024;
 				}
-
-				// Set Key Button & $this->vars['ua']
-				switch ($carrier) {
-					case 'docomo':
-						$this->keybutton = array(
-							'1'	=>	'&#xE6E2;',
-							'2'	=>	'&#xE6E3;',
-							'3'	=>	'&#xE6E4;',
-							'4'	=>	'&#xE6E5;',
-							'5'	=>	'&#xE6E6;',
-							'6'	=>	'&#xE6E7;',
-							'7'	=>	'&#xE6E8;',
-							'8'	=>	'&#xE6E9;',
-							'9'	=>	'&#xE6EA;',
-							'0'	=>	'&#xE6EB;',
-							'#'	=>	'&#xE6E0;',
-							'*'	=>	'[*]'
-						);
-						if (isset($this->SERVER['HTTP_X_DCMGUID'])) $this->vars['ua']['uid'] = $this->SERVER['HTTP_X_DCMGUID'];
-						$this->vars['ua']['isKTai'] = TRUE;
-						$this->vars['ua']['carrier'] = $carrier;
-						$this->vars['ua']['allowPNG'] = FALSE;
-						$this->vars['ua']['allowInputImage'] = FALSE;
-						$this->vars['ua']['id2name'] = TRUE;
-						if ((floatval($this->vars['ua']['ver']) < 2)) {
-							$this->vars['ua']['allowCookie'] = FALSE;
-						} else {
-							$this->vars['ua']['allowCookie'] = TRUE;
-							list($this->vars['ua']['width'], $this->vars['ua']['height']) = array('480', '480');
-						}
-						$this->vars['ua']['contentType'] = 'application/xhtml+xml';
-						$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/2.3) 1.0//EN" "i-xhtml_4ja_10.dtd">';
-						break;
-
-					case 'au':
-						$this->keybutton = array(
-							'1'	=>	'<img localsrc="180">',
-							'2'	=>	'<img localsrc="181">',
-							'3'	=>	'<img localsrc="182">',
-							'4'	=>	'<img localsrc="183">',
-							'5'	=>	'<img localsrc="184">',
-							'6'	=>	'<img localsrc="185">',
-							'7'	=>	'<img localsrc="186">',
-							'8'	=>	'<img localsrc="187">',
-							'9'	=>	'<img localsrc="188">',
-							'0'	=>	'<img localsrc="325">',
-							'#'	=>	'<img localsrc="818">',
-							'*'	=>	'[*]'
-						);
-						if (isset($this->SERVER['HTTP_X_UP_SUBNO'])) $this->vars['ua']['uid'] = $this->SERVER['HTTP_X_UP_SUBNO'];
-						$this->vars['ua']['isKTai'] = TRUE;
-						$this->vars['ua']['carrier'] = $carrier;
-						$this->vars['ua']['allowPNG'] = TRUE;
-						$this->vars['ua']['allowInputImage'] = FALSE;
-						$this->vars['ua']['allowCookie'] = TRUE;
-						$this->vars['ua']['allowFormData'] = FALSE;
-						$this->vars['ua']['id2name'] = TRUE;
-						$this->vars['ua']['meta'] = '<meta http-equiv="Cache-Control" content="no-cache" />';
-						if (isset($this->SERVER['HTTP_X_UP_DEVCAP_DEVICEPIXELS'])) list($this->vars['ua']['width'], $this->vars['ua']['height']) = explode(',', $this->SERVER['HTTP_X_UP_DEVCAP_DEVICEPIXELS']);
-						$this->vars['ua']['contentType'] = 'application/xhtml+xml';
-						$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//OPENWAVE//DTD XHTML 1.0//EN" "http://www.openwave.com/DTD/xhtml-basic.dtd">';
-						break;
-
-					case 'softbank':
-						$this->keybutton = array(
-							'1'	=>	chr(27).'$F<'.chr(15),
-							'2'	=>	chr(27).'$F='.chr(15),
-							'3'	=>	chr(27).'$F>'.chr(15),
-							'4'	=>	chr(27).'$F?'.chr(15),
-							'5'	=>	chr(27).'$F@'.chr(15),
-							'6'	=>	chr(27).'$FA'.chr(15),
-							'7'	=>	chr(27).'$FB'.chr(15),
-							'8'	=>	chr(27).'$FC'.chr(15),
-							'9'	=>	chr(27).'$FD'.chr(15),
-							'0'	=>	chr(27).'$FE'.chr(15),
-							'#'	=>	chr(27).'$F0'.chr(15),
-							'*'	=>	'[*]'
-						);
-						if (isset($this->SERVER['HTTP_X_JPHONE_UID'])) $this->vars['ua']['uid'] = $this->SERVER['HTTP_X_JPHONE_UID'];
-						$this->vars['ua']['isKTai'] = TRUE;
-						$this->vars['ua']['carrier'] = $carrier;
-						$this->vars['ua']['allowPNG'] = TRUE;
-						$this->vars['ua']['allowInputImage'] = TRUE;
-						$this->vars['ua']['allowCookie'] = TRUE;
-						$this->vars['ua']['id2name'] = TRUE;
-						if (isset($this->SERVER['HTTP_X_S_DISPLAY_INFO'])) {
-							list($_size) = explode('/', $this->SERVER['HTTP_X_S_DISPLAY_INFO']);
-							list($this->vars['ua']['width'], $this->vars['ua']['height']) = explode('*', $_size);
-							$this->Config_imageTwiceDisplayWidth = 480;
-						}
-						$this->vars['ua']['contentType'] = 'application/xhtml+xml';
-						$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//JPHONE//DTD XHTML Basic 1.0 Plus//EN" "xhtml-basic10-plus.dtd">';
-						break;
-
-					case 'willcom':
-						$this->keybutton = array(
-							'1'	=>	'&#xE6E2;',
-							'2'	=>	'&#xE6E3;',
-							'3'	=>	'&#xE6E4;',
-							'4'	=>	'&#xE6E5;',
-							'5'	=>	'&#xE6E6;',
-							'6'	=>	'&#xE6E7;',
-							'7'	=>	'&#xE6E8;',
-							'8'	=>	'&#xE6E9;',
-							'9'	=>	'&#xE6EA;',
-							'0'	=>	'&#xE6EB;',
-							'#'	=>	'&#xE6E0;',
-							'*'	=>	'[*]'
-						);
-						if (isset($_COOKIE['KTaiRenderUid'])) {
-							$this->vars['ua']['uid'] = $_COOKIE['KTaiRenderUid'];
-							setcookie('KTaiRenderUid', $this->vars['ua']['uid'], 86400 * 365 + time(), '/');
-						} else {
-							setcookie('KTaiRenderUid', uniqid() . $carrier, 86400 * 365 + time(), '/');
-						}
-						$this->vars['ua']['isKTai'] = TRUE;
-						$this->vars['ua']['carrier'] = $carrier;
-						$this->vars['ua']['allowPNG'] = TRUE;
-						$this->vars['ua']['allowInputImage'] = TRUE;
-						$this->vars['ua']['allowCookie'] = TRUE;
-						$this->vars['ua']['contentType'] = 'text/html';
-						$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-						break;
-
-					case 'iphone':
-					case 'ipod':
-					case 'ipad':
-					case 'android':
-					case 'windows phone':
-						$this->keybutton = array(
-							'1'	=>	'',
-							'2'	=>	'',
-							'3'	=>	'',
-							'4'	=>	'',
-							'5'	=>	'',
-							'6'	=>	'',
-							'7'	=>	'',
-							'8'	=>	'',
-							'9'	=>	'',
-							'0'	=>	'',
-							'#'	=>	'',
-							'*'	=>	''
-						);
-						if (isset($_COOKIE['KTaiRenderUid'])) {
-							$this->vars['ua']['uid'] = $_COOKIE['KTaiRenderUid'];
-							setcookie('KTaiRenderUid', $this->vars['ua']['uid'], 86400 * 365 + time(), '/');
-						} else {
-							setcookie('KTaiRenderUid', uniqid() . $carrier, 86400 * 365 + time(), '/');
-						}
-						$this->vars['ua']['isKTai'] = TRUE;
-						$this->vars['ua']['carrier'] = $carrier;
-						$this->vars['ua']['allowPNG'] = TRUE;
-						$this->vars['ua']['allowInputImage'] = TRUE;
-						$this->vars['ua']['allowCookie'] = TRUE;
-						list($this->vars['ua']['width'], $this->vars['ua']['height']) = array('320', '480');
-						$this->vars['ua']['contentType'] = 'text/html';
-						$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-						$this->vars['ua']['meta'] = '<meta name="viewport" content="width=device-width; initial-scale=1.0;" />';
-						break;
-				}
 			}
+
+			// Set Key Button & $this->vars['ua']
+			switch ($carrier) {
+				case 'docomo':
+					$this->keybutton = array(
+						'1'	=>	'&#xE6E2;',
+						'2'	=>	'&#xE6E3;',
+						'3'	=>	'&#xE6E4;',
+						'4'	=>	'&#xE6E5;',
+						'5'	=>	'&#xE6E6;',
+						'6'	=>	'&#xE6E7;',
+						'7'	=>	'&#xE6E8;',
+						'8'	=>	'&#xE6E9;',
+						'9'	=>	'&#xE6EA;',
+						'0'	=>	'&#xE6EB;',
+						'#'	=>	'&#xE6E0;',
+						'*'	=>	'[*]'
+					);
+					if (isset($this->SERVER['HTTP_X_DCMGUID'])) $this->vars['ua']['uid'] = $this->SERVER['HTTP_X_DCMGUID'];
+					$this->vars['ua']['isKTai'] = TRUE;
+					$this->vars['ua']['carrier'] = $carrier;
+					$this->vars['ua']['allowPNG'] = FALSE;
+					$this->vars['ua']['allowInputImage'] = FALSE;
+					$this->vars['ua']['id2name'] = TRUE;
+					if ((floatval($this->vars['ua']['ver']) < 2)) {
+						$this->vars['ua']['allowCookie'] = FALSE;
+					} else {
+						$this->vars['ua']['allowCookie'] = TRUE;
+						list($this->vars['ua']['width'], $this->vars['ua']['height']) = array('480', '480');
+					}
+					$this->vars['ua']['contentType'] = 'application/xhtml+xml';
+					$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/2.3) 1.0//EN" "i-xhtml_4ja_10.dtd">';
+					break;
+
+				case 'au':
+					$this->keybutton = array(
+						'1'	=>	'<img localsrc="180">',
+						'2'	=>	'<img localsrc="181">',
+						'3'	=>	'<img localsrc="182">',
+						'4'	=>	'<img localsrc="183">',
+						'5'	=>	'<img localsrc="184">',
+						'6'	=>	'<img localsrc="185">',
+						'7'	=>	'<img localsrc="186">',
+						'8'	=>	'<img localsrc="187">',
+						'9'	=>	'<img localsrc="188">',
+						'0'	=>	'<img localsrc="325">',
+						'#'	=>	'<img localsrc="818">',
+						'*'	=>	'[*]'
+					);
+					if (isset($this->SERVER['HTTP_X_UP_SUBNO'])) $this->vars['ua']['uid'] = $this->SERVER['HTTP_X_UP_SUBNO'];
+					$this->vars['ua']['isKTai'] = TRUE;
+					$this->vars['ua']['carrier'] = $carrier;
+					$this->vars['ua']['allowPNG'] = TRUE;
+					$this->vars['ua']['allowInputImage'] = FALSE;
+					$this->vars['ua']['allowCookie'] = TRUE;
+					$this->vars['ua']['allowFormData'] = FALSE;
+					$this->vars['ua']['id2name'] = TRUE;
+					$this->vars['ua']['meta'] = '<meta http-equiv="Cache-Control" content="no-cache" />';
+					if (isset($this->SERVER['HTTP_X_UP_DEVCAP_DEVICEPIXELS'])) list($this->vars['ua']['width'], $this->vars['ua']['height']) = explode(',', $this->SERVER['HTTP_X_UP_DEVCAP_DEVICEPIXELS']);
+					$this->vars['ua']['contentType'] = 'application/xhtml+xml';
+					$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//OPENWAVE//DTD XHTML 1.0//EN" "http://www.openwave.com/DTD/xhtml-basic.dtd">';
+					break;
+
+				case 'softbank':
+					$this->keybutton = array(
+						'1'	=>	chr(27).'$F<'.chr(15),
+						'2'	=>	chr(27).'$F='.chr(15),
+						'3'	=>	chr(27).'$F>'.chr(15),
+						'4'	=>	chr(27).'$F?'.chr(15),
+						'5'	=>	chr(27).'$F@'.chr(15),
+						'6'	=>	chr(27).'$FA'.chr(15),
+						'7'	=>	chr(27).'$FB'.chr(15),
+						'8'	=>	chr(27).'$FC'.chr(15),
+						'9'	=>	chr(27).'$FD'.chr(15),
+						'0'	=>	chr(27).'$FE'.chr(15),
+						'#'	=>	chr(27).'$F0'.chr(15),
+						'*'	=>	'[*]'
+					);
+					if (isset($this->SERVER['HTTP_X_JPHONE_UID'])) $this->vars['ua']['uid'] = $this->SERVER['HTTP_X_JPHONE_UID'];
+					$this->vars['ua']['isKTai'] = TRUE;
+					$this->vars['ua']['carrier'] = $carrier;
+					$this->vars['ua']['allowPNG'] = TRUE;
+					$this->vars['ua']['allowInputImage'] = TRUE;
+					$this->vars['ua']['allowCookie'] = TRUE;
+					$this->vars['ua']['id2name'] = TRUE;
+					if (isset($this->SERVER['HTTP_X_S_DISPLAY_INFO'])) {
+						list($_size) = explode('/', $this->SERVER['HTTP_X_S_DISPLAY_INFO']);
+						list($this->vars['ua']['width'], $this->vars['ua']['height']) = explode('*', $_size);
+						$this->Config_imageTwiceDisplayWidth = 480;
+					}
+					$this->vars['ua']['contentType'] = 'application/xhtml+xml';
+					$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//JPHONE//DTD XHTML Basic 1.0 Plus//EN" "xhtml-basic10-plus.dtd">';
+					break;
+
+				case 'willcom':
+					$this->keybutton = array(
+						'1'	=>	'&#xE6E2;',
+						'2'	=>	'&#xE6E3;',
+						'3'	=>	'&#xE6E4;',
+						'4'	=>	'&#xE6E5;',
+						'5'	=>	'&#xE6E6;',
+						'6'	=>	'&#xE6E7;',
+						'7'	=>	'&#xE6E8;',
+						'8'	=>	'&#xE6E9;',
+						'9'	=>	'&#xE6EA;',
+						'0'	=>	'&#xE6EB;',
+						'#'	=>	'&#xE6E0;',
+						'*'	=>	'[*]'
+					);
+					if (isset($_COOKIE['KTaiRenderUid'])) {
+						$this->vars['ua']['uid'] = $_COOKIE['KTaiRenderUid'];
+						setcookie('KTaiRenderUid', $this->vars['ua']['uid'], 86400 * 365 + time(), '/');
+					} else {
+						setcookie('KTaiRenderUid', uniqid() . $carrier, 86400 * 365 + time(), '/');
+					}
+					$this->vars['ua']['isKTai'] = TRUE;
+					$this->vars['ua']['carrier'] = $carrier;
+					$this->vars['ua']['allowPNG'] = TRUE;
+					$this->vars['ua']['allowInputImage'] = TRUE;
+					$this->vars['ua']['allowCookie'] = TRUE;
+					$this->vars['ua']['contentType'] = 'text/html';
+					$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+					break;
+
+				case 'iphone':
+				case 'ipod':
+				case 'ipad':
+				case 'android':
+				case 'windows phone':
+				case 'blackberry':
+				case 'playbook':
+				case 'webos':
+				case 'hpwos':
+				case 'unknown':
+					$this->keybutton = array(
+						'1'	=>	'',
+						'2'	=>	'',
+						'3'	=>	'',
+						'4'	=>	'',
+						'5'	=>	'',
+						'6'	=>	'',
+						'7'	=>	'',
+						'8'	=>	'',
+						'9'	=>	'',
+						'0'	=>	'',
+						'#'	=>	'',
+						'*'	=>	''
+					);
+					if (isset($_COOKIE['KTaiRenderUid'])) {
+						$this->vars['ua']['uid'] = $_COOKIE['KTaiRenderUid'];
+						setcookie('KTaiRenderUid', $this->vars['ua']['uid'], 86400 * 365 + time(), '/');
+					} else {
+						setcookie('KTaiRenderUid', uniqid() . $carrier, 86400 * 365 + time(), '/');
+					}
+					$this->vars['ua']['isKTai'] = TRUE;
+					$this->vars['ua']['carrier'] = $carrier;
+					$this->vars['ua']['allowPNG'] = TRUE;
+					$this->vars['ua']['allowInputImage'] = TRUE;
+					$this->vars['ua']['allowCookie'] = TRUE;
+					list($this->vars['ua']['width'], $this->vars['ua']['height']) = array('320', '480');
+					$this->vars['ua']['contentType'] = 'text/html';
+					$this->xmlDocType = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+					$this->vars['ua']['meta'] = '<meta name="viewport" content="width=device-width; initial-scale=1.0;" />';
+					break;
+			}
+
 			$this->vars['ua']['inIPRange'] = $this->checkIp($_SERVER['REMOTE_ADDR'], $this->vars['ua']['carrier']);
 			// define
 			if (! defined('K_TAI_INFO_ISBOT')) { // 設定済みチェック
