@@ -1,0 +1,10 @@
+SetEnvIf Referer "^http://xodomifara.lolipop.jp" ref_ok
+SetEnvIf Referer "^https://lolipop-xodomifara.ssl-lolipop.jp" ref_ok
+Options +IncludesNoExec
+order deny,allow
+deny from all
+<FilesMatch "\.(gif|jpe?g|png|doc|bmp|xls|txt|pdf|swf|flv|fla|avi|mpg|mpeg|mov)$">
+Order Deny,Allow
+allow from env=ref_ok
+</FilesMatch>
+

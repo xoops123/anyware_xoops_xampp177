@@ -1,0 +1,172 @@
+
+<script type="text/javascript" src="/pack2011/modules/xpwiki/skin/loader.php?src=default.ja_utf8.js"></script>
+<p>=============================================================<br />
+はじめに<br />
+かってに、myckeditor (CKEditor ver3.6.2) Ver0.10 by domifara</p>
+<p>●動作環境<br />
+　XOOPS Cube Legacy 2.2 beata3 以上</p>
+<div class="pre"><pre> 他のXoopsもテンプレート経由の互換機能は動くつもり
+ (PHP5以上)サンプルテンプレートを真似てください。</pre></div>
+<p>●インストール<br />
+Ver0.10より、CKEditorとjQuery本体は、html/common/に置いて共用するため別配置にしました。<br />
+(myckeditorと別にしました)</p>
+<p>1.html/common/ディレクトリに配置<br />
+　html/common/<br />
+　　　　　|-ckeditor/一式(jsとプラグインだけで良いです)</p>
+<div class="pre"><pre>         |</pre></div>
+<p>　　　　　|-css/</p>
+<div class="pre"><pre>         |    |-smoothness/一式(下記jquery対応の最新テーマならOK)
+         |</pre></div>
+<p>　　　　　|-js/</p>
+<div class="pre"><pre>         |    |-jquery-1.7.1.min.js
+         |    |-jquery-ui-1.8.16.custom.min.js
+         |    </pre></div>
+<p>2.function.myckeditordhtmltarea.phpの配置<br />
+(XCL2.2専用です、他のコアでは使用しません)</p>
+<p>　html/class/smarty/plugins/function.myckeditordhtmltarea.php<br />
+または、<br />
+　xoops_trust_path/libs/smarty/plugins/function.myckeditordhtmltarea.php<br />
+または、<br />
+　xoops_trust_path/libs/smartyplugins/function.myckeditordhtmltarea.php<br />
+のどこかに入れてください。</p>
+<div class="pre"><pre> </pre></div>
+<p>3.通常のモジュールと同様に html/modules/myckeditor/</p>
+<div class="pre"><pre> としてモジュールインストールしてください。</pre></div>
+<p>●対応ソフト<br />
+　現在のところ、一応標準で対応しているのは altsys-0.7eパッチ版か<br />
+　XCL2.2.1beta2に同梱のaltsysだけです。</p>
+<div class="pre"><pre> altsys-0.7eパッチ版(XCL2.2専用)のダウンロード</pre></div>
+<p><a href="http://xodomifara.lolipop.jp/doxo/modules/d3downloads/index.php?page=singlefile&amp;cid=2&amp;lid=54" title="xodomifara.lolipop.jp/doxo/modules/d3downloads/index.php?page=singlefile&amp;cid=2&amp;lid=54" class="ext" target="_blank">http://xodomifara.lolipop.jp/doxo/modules/d3downloads/index.php?page=singlefile&amp;cid=2&amp;lid=54</a></p>
+<p>●ソフトウエアの無保証</p>
+<p>●ソフトウエアのライセンス<br />
+　モジュールは原本の GPL License  に従います。<br />
+　同梱の各プラグイン等のライセンスは、おのおののライセンスに従います。<br />
+　CKEditor GPL,  pgrfilemanager MIT,GPL</p>
+<p>●一般設定<br />
+管理画面の一般設定より下記を選択することで<br />
+「サーバーブラウザー」ボタンの表示を選択できます。<br />
+一般設定<br />
+・「サーバーブラウザー」（ファイル用）ボタンの表示<br />
+　 (初期値 pgrfilemanager ,filemanage , none)　　　　　　　　　　　　　　　　　<br />
+・「サーバーブラウザー」（フラッシュ用）ボタンの表示<br />
+　 (初期値 pgrfilemanager , none)<br />
+・「サーバーブラウザー」（イメージ用）のボタン表示<br />
+　 (初期値 ,pgrfilemanager)　: filemanage ,imagemanager ,pgrfilemanager)</p>
+<p>注意:<br />
+初期値 filemanageの場合、<br />
+あらかじめ<br />
+イメージ用　html/uploads/fckeditor/<br />
+ファイル用  xoops_trust_path/uploads/fckeditor/<br />
+のディレクトリを 777 作成しておいてください。</p>
+<p>上記ディレクトリを作成しておけば<br />
+管理者に限って<br />
+初期設定のままですぐに「サーバーブラウザー」が使用できます。</p>
+<hr class="full_hr" />
+<p>ver0.06より<br />
+pgrfilemanagerという高機能のファイルマネージャーを同梱しました。<br />
+使用しない場合は、pgrfilemanagerのディレクトリを削除してください。</p>
+<p>・画像の複数一括アップロード可<br />
+・画像90°回転機能あり<br />
+・任意のサイズで画像サムネイル作成機能<br />
+・ディレクトリの移動・削除が簡単にできる<br />
+等いろいろです</p>
+<p>jQuery とUI　など最新にしていますが、<br />
+ブラウザーが古い(IE7以上)などの理由で動作しないかもしれません<br />
+その場合、filemanage を指定してください。</p>
+<p>原本の pgrfilemanager に対して、<br />
+かなりの変更をしています。<br />
+・xoops化<br />
+・従来filemanageとイメージデータ名上位互換方式<br />
+・ショートファイル名表示<br />
+(アップロード時の名前をハッシュ化して表示しています)<br />
+・キャシュファイルの自動削除<br />
+・ImageMagick対応(原本は未完成)<br />
+・CKEditorクイックアップロードに対応</p>
+<p>pgrfilemanagerを使用する場合は、イメージキャシュ用ディレクトリが必要です。<br />
+html/uploads/fckeditor/cache ディレクトリを書き込み可で作成してください。<br />
+(別の場所を指定する場合は、一般設定で行ってください)</p>
+<p>以下は、オプションの設定例となります。</p>
+<p>・アップロード許可ユーザーグループ</p>
+<div class="pre"><pre>「サーバーブラウザー」ボタンを</pre></div>
+<p>　サイト管理者以外のユーザーグループに表示して<br />
+　filemanage とpgrfilemanagerの利用権を与える場合には<br />
+　別途アップロード許可が必要です。<br />
+　4,6　のようにグループidの数字をカンマ区切りで指定してください。</p>
+<div class="pre"><pre> [[注意]]：</pre></div>
+<p>　この際、そのユーザーグループには、<br />
+　管理画面より「CKEditor モジュールアクセス権限」も与えておいてください。</p>
+<div class="pre"><pre> モジュールアクセス権のないユーザーは、使用できません</pre></div>
+<p>　ゲストにはアクセス権を与えないようにしてください。</p>
+<p>・イメージマネージャー使用ユーザーグループ</p>
+<div class="pre"><pre>「サーバーブラウザー」ボタンを</pre></div>
+<p>　サイト管理者以外のユーザーグループに表示するには、<br />
+　4,6　のようにグループidの数字をカンマ区切りで指定してください。<br />
+　filemanage とpgrfilemanagerの利用権は上記のアップロード許可ユーザーグループ<br />
+　で与えられていますが、<br />
+　imagemanagerを選択していた場合は、<br />
+　イメージマネージャーのダイアログを開いた後の利用権は、<br />
+　イメージマネージャー側の設定でしてください。</p>
+<p>注意<br />
+・imagemanagerを選択した場合は、</p>
+<div class="pre"><pre> 同梱の extras ディレクトリに、含まれているパッチを</pre></div>
+<p>　各 readme.txtに従ってパッチをあてる必要があります。</p>
+<p>・filemanege,pgrfilemanager用 ユーザー別のディレクトリにデータを保存する<br />
+　filemanegeには、ユーザーid別にディレクトリを作成しておいて<br />
+　ユーザー別にデータを保存する機能があります。<br />
+　「はい」にするとこのモードになります。</p>
+<p>　/uploads/fckeditor/2/ のようにユーザーid番号の</p>
+<div class="pre"><pre> ディレクトリを自動で作成します。(ver0.05より)
+(管理者のときは、他のユーザーのデータもすべて表示します)</pre></div>
+<div class="pre"><pre> pgrfilemanagerの場合管理者以外にアップロード権を与える場合必須です。</pre></div>
+<hr class="full_hr" />
+<p>ver0.10よりの変更概要<br />
+・pgrfilemanagerをjquery.js バージョン1.7.1に対応(ver0.09までは,jquery.js ver1.6.2までの対応でした)<br />
+・pgrfilemanager同梱のjsライブラリィを現時点で最新に変更(GPL,MITライセンスのものだけです)<br />
+・pgrfilemanagerのディレクトリの開いた状態を(jquery.cookie.js)クッキー保存<br />
+・pgrfilemanagerの管理者のアップロード可能な拡張子、大幅に増やしました。(ゆるゆるです)<br />
+・pgrfilemanagerのjquery ui のテーマを共用するため sunny -&gt; smoothness　に変更しました。<br />
+・前述のように、CKEditor本体の様に共用で使用するものはcommonに配置しました。<br />
+　適時CKEditorのみアップデイトとかしてください。</p>
+<hr class="full_hr" />
+<p>extrasディレクトリについて<br />
+必要に応じて、どれかをご使用ください。</p>
+<hr class="full_hr" />
+<p>[for_pgrfilemanager_For_custom_config]</p>
+<p>pgrfilemanagerの<br />
+複数の設定を画面上で切り替えて使うためものです。</p>
+<p>複数のルートディレクトリまたは、違う設定に<br />
+切り替えながら画像を選択することが可能になります。</p>
+<p>ディレクトリ内のreadme.txtをお読みください</p>
+<hr class="full_hr" />
+<p>[for_pgrfilemanager_For_imagemanage]</p>
+<p>legacy_xoopsform_dhtmltextarea.html<br />
+または<br />
+preloadにより</p>
+<p>標準のBBCodeのイメージマネジャー統合用<br />
+イメージ選択ダイアログにpgrfilemanagerイメージマネジャーを統合表示するものです。</p>
+<p>ディレクトリ内のreadme.txtをお読みください</p>
+<hr class="full_hr" />
+<p>[for_pgrfilemanager_For_modrewrite]</p>
+<p>.htaccess により<br />
+mod rewrite 経由で画像を表示するためのものです。</p>
+<p>ディレクトリ内のreadme.txtをお読みください</p>
+<hr class="full_hr" />
+<p>[for_webphoto_For_imagemanage]<br />
+webphotoのイメージマネジャー統合用</p>
+<div class="pre"><pre>webphotoのイメージマネジャー統合用をmyckeditorのCKEditorの
+イメージ選択ダイアログに「サーバーブラウザー」のボタンで
+webphotoイメージマネジャー統合を表示するものです。</pre></div>
+<p>ディレクトリ内のreadme.txtをお読みください</p>
+<hr class="full_hr" />
+<p>[for_XCL2X_legacy_image_list_For_imagemanage]</p>
+<p>legacy_image_list.html</p>
+<div class="pre"><pre>標準のイメージマネジャー統合用をmyckeditorのCKEditorの
+イメージ選択ダイアログに「サーバーブラウザー」のボタンで
+標準のイメージマネジャーを表示するものです。</pre></div>
+<p>ディレクトリ内のreadme.txtをお読みください</p>
+<hr class="full_hr" />
+<p>[for_XCL21_preload]</p>
+<p>Jquery.class.php</p>
+<p>このpreloadは、XOOPS Cube Legacy2.1.8でXCL2.2で追加になった<br />
+JQueryサポート仕様を疑似的に再現するものです。</p>
+<p>ディレクトリ内のreadme.txtをお読みください</p>

@@ -1,0 +1,5 @@
+
+<script type="text/javascript" src="/pack2011/modules/xpwiki/skin/loader.php?src=default.ja_utf8.js"></script>
+<p>XoopsX の一番のうり、簡単にモジュールなどのアップデートやインストールができる X-update を導入して、最新のXoopsX 同等になりました。<br />
+また、X-update を使うと myckeditor なども簡単導入できるので、従来の myckeditor は一旦削除しました。（サイトワイドWikiヘルパー適用）<br />
+さらにテーマ tw_940 を採用しているので、Twitter Bootstrap の雰囲気がつかめると思います。</p>

@@ -1,0 +1,84 @@
+<{strip}>
+<{include_php file="`$smarty.const.XOOPS_THEME_PATH`/`$xoops_theme`/xugj_assign_theme_language_inc.php"}>
+<{include_php file="`$smarty.const.XOOPS_THEME_PATH`/`$xoops_theme`/xugj_assign_theme.php"}>
+<{include_php file="`$smarty.const.XOOPS_THEME_PATH`/`$xoops_theme`/xugj_already_js.php"}>
+<!DOCTYPE html>
+<{/strip}>
+<html lang="<{$xoops_langcode}>" prefix="og: http://ogp.me/ns#">
+<head>
+<{include file="`$smarty.const.XOOPS_ROOT_PATH`/common/ogp/meta_add.html"}>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" href="<{$xoops_imageurl}>css/bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="<{$xoops_imageurl}>css/bootstrap-responsive.css" />
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<script type="text/javascript"><{$xoops_js|regex_replace:"/(\/\/\-\->|<!\-\-)/":""}></script>
+<{if ! $xcl22_jquery_is_already and ! $xugj_jquery_is_already}>
+<script type="text/javascript" src="<{$xoops_imageurl}>js/jquery-1.7.1.min.js"></script>
+<{/if}>
+<{if $xoops_module_header}><{$xoops_module_header}><{/if}><{if $xoops_block_header}><{$xoops_block_header}><{/if}>
+<link rel="stylesheet" type="text/css" href="<{$xoops_imageurl}>style.css" />
+<link rel="stylesheet" type="text/css" href="<{$xoops_imageurl}>modules.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_imageurl}>colors.css" charset="utf-8" />
+<{include file="`$xoops_theme`/theme_redirect_js.html"}>
+<{include file="`$xoops_theme`/theme_ext_js.html"}>
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+<body class="L<{$xoops_showlblock}>R<{$xoops_showrblock}> <{strip}>
+<{if $smarty.server.SCRIPT_FILENAME|basename == "index.php" and $smarty.server.SCRIPT_FILENAME|dirname|basename == $smarty.const.XOOPS_ROOT_PATH|basename}>
+	home
+<{else}>
+	<{if $xugj_trustdirname }>
+		<{$xugj_trustdirname}>
+	<{elseif !$xoops_dirname == ""}>
+		<{$xoops_dirname}>
+	<{else}>
+		other
+	<{/if}>
+<{/if}>
+"><{/strip}>
+<div class="navbar navbar-fixed-top<{if $xoops_isadmin}><{if $xoops_dirname == "wordpress"}> fixed2<{elseif $xoops_dirname == "xpress"}> fixed2<{/if}><{/if}>">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="nav-collapse collapse">
+        <ul class="nav">
+			<{if $menu0.dirname == $xoops_dirname}>
+				<li class="active"><a href="<{$xoops_url}>/"><{$smarty.const._THEME_LANGUAGE_HOME_NAME}></a></li>
+			<{else}>
+				<li><a href="<{$xoops_url}>/"><{$smarty.const._THEME_LANGUAGE_HOME_NAME}></a></li>
+			<{/if}>
+			<{foreach from=$xugj_menus item="menu0"}>
+						<{if $menu0.dirname == $xoops_dirname}>
+								<{assign var="xugj_menus1" value=$menu0.sub}>
+								<{assign var="menu0_class" value="s"}>
+						<{else}>
+								<{assign var="menu0_class" value=""}>
+						<{/if}>
+				<li<{if $menu0.dirname == $xoops_dirname}> class="active"<{/if}>><a href="<{$xoops_url}>/modules/<{$menu0.dirname}>/<{$menu0.url}>"><{$menu0.name}></a></li>
+			<{/foreach}>
+        </ul>
+      </div>
+	</div>
+  </div>
+</div>
+
+<{* contents *}>
+<{if $xoops_dirname == ""}>
+	<{include file="`$xoops_theme`/theme_home.html"}>
+<{else}>
+	<{include file="`$xoops_theme`/theme_modules.html"}>
+<{/if}>
+
+<{* login block *}>
+<{include file="`$xoops_theme`/theme_cubelogin_block.html"}>
+
+<footer id="footer"><{* include right-column *}>
+	<{include file="`$xoops_theme`/theme_footer.html"}>
+</footer>
+
+<div id="xugj_pm_new_message" class="top-right"></div>
+
+</body>
+</html>

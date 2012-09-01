@@ -1,0 +1,5 @@
+<?php /* Smarty version 2.6.26, created on 2012-09-01 07:19:39
+         compiled from db:bulletin_relations.html */ ?>
+<?php echo ''; ?><?php if ($this->_tpl_vars['relations']): ?><?php echo '<br /><div class="item"><div class="itemHead">'; ?><?php echo @_MD_RELATION; ?><?php echo '</div><div class="itemInfo"><ul>'; ?><?php $_from = $this->_tpl_vars['relations']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
+    foreach ($_from as $this->_tpl_vars['r']):
+?><?php echo '<li><a href="'; ?><?php echo $this->_tpl_vars['r']['url']; ?><?php echo '/index.php?page=article&amp;storyid='; ?><?php echo $this->_tpl_vars['r']['storyid']; ?><?php echo '">'; ?><?php echo $this->_tpl_vars['r']['title']; ?><?php echo '</a> ('; ?><?php echo $this->_tpl_vars['r']['date']; ?><?php echo ')</li>'; ?><?php endforeach; endif; unset($_from); ?><?php echo '</ul></div></div>'; ?><?php endif; ?><?php echo ''; ?>
